@@ -7,6 +7,6 @@ parameters:
 #		- %rootDir%/../../../app/TemplateModule
 
 	ignoreErrors:
-		- '#Constant APP_DIR not found.#'
-		- '#Constant WWW_DIR not found.#'
-		- '#Constant TESTS_DIR not found.#'
+#		- '#Constant APP_DIR not found.#'
+#		- '#Constant WWW_DIR not found.#'
+#		- '#Constant TESTS_DIR not found.#'

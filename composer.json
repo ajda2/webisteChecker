@@ -28,7 +28,8 @@
     "dg/ftp-deployment": "^3.0.1",
     "ublaboo/datagrid": "^5.7.0",
     "ublaboo/mailing": "^1.1",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
     "phpstan/phpstan": "^0.10.3",
@@ -53,8 +54,7 @@
     ],
     "build": [
       "@cs",
-      "@phpstan",
-      "@tests-unit"
+      "@phpstan"
     ],
     "build-complete": [
       "@cs",
