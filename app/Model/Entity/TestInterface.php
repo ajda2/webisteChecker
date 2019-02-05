@@ -5,7 +5,7 @@ namespace Ajda2\WebsiteChecker\Model\Entity;
 
 interface TestInterface {
 
-	public function run(\DOMDocument $document): TestInterface;
+	public function run(\DOMDocument $document): TestResultInterface;
 
 	public function getCode(): string;
 
