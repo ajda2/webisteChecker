@@ -21,4 +21,12 @@ interface WebsiteInterface {
 	public function addTestResult(string $code, TestResultInterface $testCaseResult): WebsiteInterface;
 
 	public function getTestResults(): ArrayHash;
+
+	public function getResponseTime(): int;
+
+	public function setResponseTime(int $responseTime): WebsiteInterface;
+
+	public function getResponseCode(): int;
+
+	public function setResponseCode(int $responseCode): WebsiteInterface;
 }
