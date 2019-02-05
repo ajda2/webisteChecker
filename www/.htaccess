@@ -1,0 +1,40 @@
+# Apache configuration file (see httpd.apache.org/docs/current/mod/quickreference.html)
+
+# disable directory listing
+<IfModule mod_autoindex.c>
+	Options -Indexes
+</IfModule>
+
+# enable cool URL
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	# use HTTPS
+	# RewriteCond %{HTTPS} !on
+	# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+	RewriteBase /
+
+	# Redirect to www
+#	RewriteCond %{HTTP_HOST} !=localhost
+#	RewriteCond %{HTTP_HOST} !=127.0.0.1
+#	RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+#	RewriteCond %{REMOTE_ADDR} !=::1
+#	RewriteCond %{HTTP_HOST} !^www\.
+#	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+	# prevents files starting with dot to be viewed by browser
+	RewriteRule /\.|^\. - [F]
+
+	# front controller
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule !\.(pdf|js|ico|gif|jpg|png|css|rar|zip|tar\.gz)$ index.php [L]
+</IfModule>
+
+# enable gzip compression
+<IfModule mod_deflate.c>
+	<IfModule mod_filter.c>
+		AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json application/xml image/svg+xml
+	</IfModule>
+</IfModule>

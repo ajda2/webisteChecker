@@ -1,0 +1,4 @@
+!.gitignore
+mysql/data
+mysql-test/data
+php-apache/logs

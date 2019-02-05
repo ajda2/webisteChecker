@@ -1,0 +1,12 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+parameters:
+	excludes_analyse:
+#		- %rootDir%/../../../app/TemplateModule
+
+	ignoreErrors:
+		- '#Constant APP_DIR not found.#'
+		- '#Constant WWW_DIR not found.#'
+		- '#Constant TESTS_DIR not found.#'

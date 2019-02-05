@@ -1,0 +1,81 @@
+{
+  "name": "website-checker",
+  "description": "Tool for automatic website checking",
+  "type": "project",
+  "authors": [
+    {
+      "name": "ajda2, Michal Tichý",
+      "homepage": "https://www.tichy-vyvojar.cz"
+    }
+  ],
+  "prefer-stable": true,
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1",
+    "nette/application": "^2.4",
+    "nette/bootstrap": "^2.4.2",
+    "nette/caching": "^2.5",
+    "nette/database": "^2.4",
+    "nette/di": "^2.4",
+    "nette/finder": "^2.4",
+    "nette/http": "^2.4",
+    "nette/mail": "^2.4",
+    "nette/security": "^2.4",
+    "nette/utils": "^2.4",
+    "nette/robot-loader": "^2.4 || ^3.0",
+    "latte/latte": "^2.4",
+    "tracy/tracy": "^2.4",
+    "dg/ftp-deployment": "^3.0.1",
+    "ublaboo/datagrid": "^5.7.0",
+    "ublaboo/mailing": "^1.1",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^0.10.3",
+    "phpstan/phpstan-nette": "^0.10.1",
+    "phpstan/phpstan-strict-rules": "^0.10.1",
+    "phpunit/phpunit": "^7.5",
+    "phpunit/dbunit": "^4.0",
+    "slevomat/coding-standard": "^4.7"
+  },
+  "scripts": {
+    "deploy:work:test": "php vendor/dg/ftp-deployment/deployment deployment.work.php --test",
+    "deploy:work:live": "php vendor/dg/ftp-deployment/deployment deployment.work.php",
+    "tests-unit": "php vendor/phpunit/phpunit/phpunit --configuration tests/Unit/phpunit_unit.xml tests/Unit",
+    "tests-integration": "php vendor/phpunit/phpunit/phpunit --configuration tests/Integration/phpunit_integration.xml tests/Integration",
+    "phpstan": "php vendor/phpstan/phpstan/bin/phpstan analyse -l 7 -c phpstan.neon app",
+    "cs": "php vendor/squizlabs/php_codesniffer/bin/phpcs --standard=ruleset.xml --extensions=php --tab-width=4 -sp app",
+    "cs-fix": "php vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=ruleset.xml --extensions=php --tab-width=4 -sp app",
+    "cache:delete": "bash scripts/bash/cache-delete.sh",
+    "tests": [
+      "@tests-unit",
+      "@tests-integration"
+    ],
+    "build": [
+      "@cs",
+      "@phpstan",
+      "@tests-unit"
+    ],
+    "build-complete": [
+      "@cs",
+      "@phpstan",
+      "@tests"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Ajda2\\WebsiteChecker\\": "app/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ajda2\\WebsiteChecker\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "process-timeout": 2000,
+    "platform": {
+      "php": "7.1.21"
+    }
+  }
+}
