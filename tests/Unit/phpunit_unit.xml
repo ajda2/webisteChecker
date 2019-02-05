@@ -1,0 +1,19 @@
+<phpunit
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.0/phpunit.xsd"
+		backupGlobals="true"
+		backupStaticAttributes="false"
+		bootstrap="bootstrap_unit.php">
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..\..\app\</directory>
+			<!--<file>d:\wamp\www\utils\tests\Utils\MathTest.php</file>-->
+			<exclude>
+				<!--<directory suffix=".php">/path/to/files</directory>-->
+				<file>..\..\app\bootstrap.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+
+</phpunit>

@@ -54,7 +54,8 @@
     ],
     "build": [
       "@cs",
-      "@phpstan"
+      "@phpstan",
+      "@tests-unit"
     ],
     "build-complete": [
       "@cs",

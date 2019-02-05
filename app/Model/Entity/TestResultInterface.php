@@ -9,5 +9,7 @@ interface TestResultInterface {
 
 	public function isFail(): bool;
 
+	public function getValue(): ?string;
+
 	public function getDescription(): ?string;
 }
