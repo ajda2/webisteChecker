@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.3-apache
 
 RUN docker-php-ext-install pdo_mysql \
 && a2enmod rewrite
@@ -20,8 +20,8 @@ RUN apt-get update -y && apt-get install -y -qq git \
 	vim
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt zip gd bcmath
+RUN docker-php-ext-install -j$(nproc) iconv gd bcmath
 
-RUN pecl install xdebug \
+RUN pecl install xdebug-beta \
   && docker-php-ext-enable xdebug
 COPY docker/php-apache/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

@@ -30,7 +30,8 @@
     "ublaboo/mailing": "^1.1",
     "ext-pdo": "*",
     "ext-dom": "*",
-    "guzzlehttp/guzzle": "^6.3"
+    "guzzlehttp/guzzle": "^6.3",
+    "masterminds/html5": "^2.5"
   },
   "require-dev": {
     "phpstan/phpstan": "^0.10.3",

@@ -8,6 +8,7 @@ use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Masterminds\HTML5;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
 use Psr\Http\Message\ResponseInterface;
@@ -73,11 +74,11 @@ class Tester {
 
 			return FALSE;
 		}
-		$document = new \DOMDocument();
-		$document->loadHTML((string)$response->getBody());
+
+		$doc = new HTML5();
 
 		foreach ($this->tests as $test) {
-			$result = $test->run($document);
+			$result = $test->run($doc->loadHTML((string)$response->getBody()));
 
 			if ($result->isSuccess()) {
 				$this->onTestSuccess($this, $website, $test, $result);

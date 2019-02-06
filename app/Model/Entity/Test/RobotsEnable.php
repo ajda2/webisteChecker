@@ -30,7 +30,7 @@ class RobotsEnable extends AbstractTest {
 
 			$contentAttr = $meta->attributes->getNamedItem('content');
 			if ($contentAttr === NULL) {
-				return new TestResult(FALSE);
+				return new TestResult(FALSE, NULL, "'content' attribute for element meta robots is missing.");
 			}
 
 			$value = \str_replace(" ", "", $contentAttr->textContent);
@@ -39,7 +39,7 @@ class RobotsEnable extends AbstractTest {
 		}
 
 		if ($value === NULL) {
-			return new TestResult(TRUE);
+			return new TestResult(TRUE, NULL, "Meta robots is not set. Indexing is enabled by default.");
 		}
 
 		if (\in_array($value, $this->allowed, TRUE)) {
