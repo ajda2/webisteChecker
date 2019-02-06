@@ -29,7 +29,8 @@
     "ublaboo/datagrid": "^5.7.0",
     "ublaboo/mailing": "^1.1",
     "ext-pdo": "*",
-    "ext-dom": "*"
+    "ext-dom": "*",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "require-dev": {
     "phpstan/phpstan": "^0.10.3",
