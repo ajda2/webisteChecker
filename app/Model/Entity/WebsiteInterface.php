@@ -8,8 +8,6 @@ use Nette\Utils\DateTime;
 
 interface WebsiteInterface {
 
-	public function getId(): int;
-
 	public function getUrl(): Url;
 
 	public function getLastCheckAt(): ?DateTime;

@@ -24,7 +24,7 @@ class WebsiteTest extends TestCase {
 		$responseCode = 200;
 		$responseTime = 3500;
 
-		$this->item = new Website($id, $url, $lastCheckAt, $responseCode, $responseTime);
+		$this->item = new Website($url, $lastCheckAt, $responseCode, $responseTime);
 	}
 
 	public function test__construct(): void {
@@ -34,10 +34,9 @@ class WebsiteTest extends TestCase {
 		$responseCode = 200;
 		$responseTime = 3500;
 
-		$this->item = new Website($id, $url, $lastCheckAt, $responseCode, $responseTime);
+		$this->item = new Website($url, $lastCheckAt, $responseCode, $responseTime);
 
 		$this->assertInstanceOf(Website::class, $this->item);
-		$this->assertSame($id, $this->item->getId());
 		$this->assertSame($url, $this->item->getUrl());
 		$this->assertSame($lastCheckAt->getTimestamp(), $this->item->getLastCheckAt()->getTimestamp());
 		$this->assertSame($responseCode, $this->item->getResponseCode());

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Ajda2\WebsiteChecker\Model\Entity\Test;
+namespace Ajda2\WebsiteChecker\Model\Entity\TestCase;
 
 
 use Ajda2\WebsiteChecker\Model\Entity\AbstractTest;

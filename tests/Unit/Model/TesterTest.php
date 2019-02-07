@@ -42,14 +42,14 @@ class TesterTest extends TestCase {
 	public function testRunTests() {
 		$code = 'test1';
 		$this->tester->addTest($this->createMockTest($code, TRUE));
-		$website = new Website(0, new Url('https://www.surface.cz/'));
+		$website = new Website(new Url('https://www.surface.cz/'));
 
 		$this->assertTrue($this->tester->runTests($website, $this->requestTimeout));
 	}
 
 	public function testOnTestFail() {
 		$code = 'test1';
-		$website = new Website(0, new Url('https://www.zonaholesov.cz/admin/'));
+		$website = new Website(new Url('https://www.zonaholesov.cz/admin/'));
 		$this->tester->addTest($this->createMockTest($code, FALSE));
 
 		$this->tester->onTestFail[] = function (
@@ -73,7 +73,7 @@ class TesterTest extends TestCase {
 
 	public function testOnTestSuccess() {
 		$code = 'test1';
-		$website = new Website(0, new Url('https://www.surface.cz/'));
+		$website = new Website(new Url('https://www.surface.cz/'));
 		$this->tester->addTest($this->createMockTest($code, TRUE));
 
 		$this->tester->onTestSuccess[] = function (
@@ -97,7 +97,7 @@ class TesterTest extends TestCase {
 
 	public function testOnWebResponse() {
 		$code = 'test1';
-		$website = new Website(0, new Url('https://www.surface.cz/'));
+		$website = new Website(new Url('https://www.surface.cz/'));
 		$this->tester->addTest($this->createMockTest($code, TRUE));
 
 		$this->tester->onWebResponse[] = function (
@@ -121,7 +121,7 @@ class TesterTest extends TestCase {
 
 	public function testOnWebResponseFail() {
 		$code = 'test1';
-		$website = new Website(0, new Url('https://www.notexists.cze/'));
+		$website = new Website(new Url('https://www.notexists.cze/'));
 		$this->tester->addTest($this->createMockTest($code, TRUE));
 
 		$this->tester->onWebResponseFail[] = function (

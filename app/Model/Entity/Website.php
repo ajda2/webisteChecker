@@ -12,9 +12,6 @@ class Website implements WebsiteInterface {
 
 	use SmartObject;
 
-	/** @var int */
-	private $id;
-
 	/** @var Url */
 	private $url;
 
@@ -34,29 +31,22 @@ class Website implements WebsiteInterface {
 	private $hasFailingTest = FALSE;
 
 	/**
-	 * @param int           $id
 	 * @param Url           $url
 	 * @param DateTime|null $lastCheckAt
 	 * @param int|null      $responseCode
 	 * @param int|null      $responseTime
 	 */
 	public function __construct(
-		int $id,
 		Url $url,
 		?DateTime $lastCheckAt = NULL,
 		?int $responseCode = NULL,
 		?int $responseTime = NULL
 	) {
-		$this->id = $id;
 		$this->url = $url;
 		$this->lastCheckAt = $lastCheckAt;
 		$this->responseCode = $responseCode;
 		$this->responseTime = $responseTime;
 		$this->testResults = new ArrayHash();
-	}
-
-	public function getId(): int {
-		return $this->id;
 	}
 
 	public function getUrl(): Url {

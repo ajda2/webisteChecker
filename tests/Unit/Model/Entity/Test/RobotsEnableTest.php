@@ -2,7 +2,7 @@
 
 namespace Ajda2\WebsiteChecker\Tests\Unit\Model\Entity\Test;
 
-use Ajda2\WebsiteChecker\Model\Entity\Test\RobotsEnable;
+use Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsEnable;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use PHPUnit\Framework\TestCase;
 
