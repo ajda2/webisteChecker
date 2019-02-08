@@ -25,6 +25,7 @@ class WebsiteRepositoryTest extends DbTestCase {
 		$result = $this->websiteRepository->getWebsiteForTest();
 
 		$this->assertInstanceOf(WebsiteInterface::class, $result);
+		$this->assertSame(2, $result->getId());
 	}
 
 	/**
