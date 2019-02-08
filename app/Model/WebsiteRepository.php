@@ -23,22 +23,22 @@ class WebsiteRepository {
 	private const COLUMN_WEBSITE_ID = 'id';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_URL = 'last_check_at';
+	private const COLUMN_WEBSITE_URL = 'url';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_HAS_ERROR = 'last_check_at';
+	private const COLUMN_WEBSITE_HAS_ERROR = 'has_error';
 
 	/** @var string */
 	private const COLUMN_WEBSITE_LAST_CHECK_AT = 'last_check_at';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_RESPONSE_CODE = 'last_check_at';
+	private const COLUMN_WEBSITE_RESPONSE_CODE = 'response_code';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_RESPONSE_TIME = 'last_check_at';
+	private const COLUMN_WEBSITE_RESPONSE_TIME = 'response_time';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_TESTS_DATA = 'last_check_at';
+	private const COLUMN_WEBSITE_TESTS_DATA = 'tests_data';
 
 	/** @var Context */
 	private $database;
