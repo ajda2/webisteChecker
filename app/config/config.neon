@@ -1,0 +1,25 @@
+
+parameters:
+
+application:
+	errorPresenter: Front:Error
+	mapping:
+		*: Ajda2\WebsiteChecker\*Module\Presenters\*Presenter
+
+session:
+	expiration: 14 days
+	debugger: true
+
+tracy:
+	email: michal@tichy-vyvojar.cz
+	showLocation: true;
+
+database:
+	default:
+		dsn: '%database.driver%:host=%database.host%;dbname=%database.dbname%'
+		user: %database.user%
+		password: %database.password%
+
+services:
+#	router: @router::createRouter
+	- Ajda2\WebsiteChecker\Model\WebsiteRepository

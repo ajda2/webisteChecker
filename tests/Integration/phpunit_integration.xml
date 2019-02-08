@@ -1,0 +1,25 @@
+<phpunit
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.0/phpunit.xsd"
+		backupGlobals="true"
+		backupStaticAttributes="false"
+		bootstrap="bootstrap_integration.php">
+	<php>
+		<var name="DB_DSN" value="mysql:dbname=checker;host=mysql-test" />
+		<var name="DB_USER" value="checker" />
+		<var name="DB_PASSWD" value="123" />
+		<var name="DB_DBNAME" value="checker" />
+	</php>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..\..\app\</directory>
+			<!--<file>d:\wamp\www\utils\tests\Utils\MathTest.php</file>-->
+			<exclude>
+				<!--<directory suffix=".php">/path/to/files</directory>-->
+				<file>..\..\app\bootstrap.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+
+</phpunit>

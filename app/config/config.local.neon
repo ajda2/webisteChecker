@@ -1,0 +1,9 @@
+parameters:
+
+	database:
+		driver: mysql
+		host: mysql
+		dbname: checker
+		user: checker
+		password: '123'
+		prefix: ''
