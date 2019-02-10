@@ -7,7 +7,6 @@ use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentify;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 use Nette\Http\Url;
 use Nette\NotImplementedException;
 use Nette\SmartObject;
@@ -17,28 +16,25 @@ class WebsiteRepository {
 	use SmartObject;
 
 	/** @var string */
-	private const TABLE_WEBSITE = 'website';
+	public const TABLE_WEBSITE = 'website';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_ID = 'id';
+	public const COLUMN_WEBSITE_ID = 'id';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_URL = 'url';
+	public const COLUMN_WEBSITE_URL = 'url';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_HAS_ERROR = 'has_error';
+	public const COLUMN_WEBSITE_HAS_ERROR = 'has_error';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_LAST_CHECK_AT = 'last_check_at';
+	public const COLUMN_WEBSITE_LAST_CHECK_AT = 'last_check_at';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_RESPONSE_CODE = 'response_code';
+	public const COLUMN_WEBSITE_RESPONSE_CODE = 'response_code';
 
 	/** @var string */
-	private const COLUMN_WEBSITE_RESPONSE_TIME = 'response_time';
-
-	/** @var string */
-	private const COLUMN_WEBSITE_TESTS_DATA = 'tests_data';
+	public const COLUMN_WEBSITE_RESPONSE_TIME = 'response_time';
 
 	/** @var Context */
 	private $database;
