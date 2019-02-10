@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `website`;
 CREATE TABLE `website` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `has_error` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `has_failing_test` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `last_check_at` datetime DEFAULT NULL,
   `response_code` int(11) DEFAULT NULL,
   `response_time` float DEFAULT NULL,
@@ -21,4 +21,4 @@ CREATE TABLE `website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2019-02-07 16:47:49
+-- 2019-02-10 18:50:10
