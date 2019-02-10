@@ -24,13 +24,15 @@ interface WebsiteInterface {
 
 	public function clearTestResults(): WebsiteInterface;
 
-	public function getResponseTime(): ?int;
+	public function getResponseTime(): ?float;
 
-	public function setResponseTime(?int $responseTime): WebsiteInterface;
+	public function setResponseTime(?float $responseTime): WebsiteInterface;
 
 	public function getResponseCode(): ?int;
 
 	public function setResponseCode(?int $responseCode): WebsiteInterface;
+
+	public function hesResponseError(): bool;
 
 	/**
 	 * Clean all results and all other tests data

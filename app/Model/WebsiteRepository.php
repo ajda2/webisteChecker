@@ -6,10 +6,11 @@ namespace Ajda2\WebsiteChecker\Model;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentify;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
+use Nette\Database\DriverException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Url;
-use Nette\NotImplementedException;
 use Nette\SmartObject;
+use Tracy\ILogger;
 
 class WebsiteRepository {
 
@@ -25,7 +26,7 @@ class WebsiteRepository {
 	public const COLUMN_WEBSITE_URL = 'url';
 
 	/** @var string */
-	public const COLUMN_WEBSITE_HAS_ERROR = 'has_error';
+	public const COLUMN_WEBSITE_HAS_FAILING_TEST = 'has_failing_test';
 
 	/** @var string */
 	public const COLUMN_WEBSITE_LAST_CHECK_AT = 'last_check_at';
@@ -39,8 +40,12 @@ class WebsiteRepository {
 	/** @var Context */
 	private $database;
 
-	public function __construct(Context $database) {
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(Context $database, ILogger $logger) {
 		$this->database = $database;
+		$this->logger = $logger;
 	}
 
 	public function getWebsiteForTest(): ?WebsiteIdentifyInterface {
@@ -53,8 +58,29 @@ class WebsiteRepository {
 		return $this->fromRowFactory($row);
 	}
 
+	/**
+	 * @param WebsiteIdentifyInterface $website
+	 * @return WebsiteIdentifyInterface
+	 * @throws PersistException
+	 */
 	public function save(WebsiteIdentifyInterface $website): WebsiteIdentifyInterface {
-		throw new NotImplementedException();
+		$data = [
+			self::COLUMN_WEBSITE_URL              => $website->getUrl(),
+			self::COLUMN_WEBSITE_HAS_FAILING_TEST => $website->hasFailingTest(),
+			self::COLUMN_WEBSITE_LAST_CHECK_AT    => $website->getLastCheckAt(),
+			self::COLUMN_WEBSITE_RESPONSE_CODE    => $website->getResponseCode(),
+			self::COLUMN_WEBSITE_RESPONSE_TIME    => $website->getResponseTime()
+		];
+
+		try {
+			$this->database->table(self::TABLE_WEBSITE)->where([self::COLUMN_WEBSITE_ID => $website->getId()])->update($data);
+		} catch (DriverException $e) {
+			$this->logger->log($e, $this->logger::ERROR);
+
+			throw new PersistException();
+		}
+
+		return $website;
 	}
 
 	private function fromRowFactory(ActiveRow $row): WebsiteIdentifyInterface {

@@ -22,7 +22,7 @@ class WebsiteTest extends TestCase {
 		$url = new Url("https://www.surface.cz/");
 		$lastCheckAt = new DateTime("2019-06-02 0:23:00");
 		$responseCode = 200;
-		$responseTime = 3500;
+		$responseTime = 3500.0;
 
 		$this->item = new Website($url, $lastCheckAt, $responseCode, $responseTime);
 	}
@@ -32,7 +32,7 @@ class WebsiteTest extends TestCase {
 		$url = new Url("https://www.surface.cz/");
 		$lastCheckAt = new DateTime("2019-06-02 00:23:00");
 		$responseCode = 200;
-		$responseTime = 3500;
+		$responseTime = 3500.0;
 
 		$this->item = new Website($url, $lastCheckAt, $responseCode, $responseTime);
 
@@ -50,7 +50,7 @@ class WebsiteTest extends TestCase {
 	public function testSetters(): void {
 		$lastCheckAt = new DateTime("2018-05-01 18:16:54");
 		$responseCode = 404;
-		$responseTime = 10;
+		$responseTime = 10.0;
 
 		$this->item->setLastCheckAt($lastCheckAt);
 		$this->item->setResponseCode($responseCode);

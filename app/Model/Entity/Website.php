@@ -21,7 +21,7 @@ class Website implements WebsiteInterface {
 	/** @var int|null */
 	private $responseCode;
 
-	/** @var int|null */
+	/** @var float|null */
 	private $responseTime;
 
 	/** @var ArrayHash|TestResultInterface[] */
@@ -34,13 +34,13 @@ class Website implements WebsiteInterface {
 	 * @param Url           $url
 	 * @param DateTime|null $lastCheckAt
 	 * @param int|null      $responseCode
-	 * @param int|null      $responseTime
+	 * @param float|null    $responseTime
 	 */
 	public function __construct(
 		Url $url,
 		?DateTime $lastCheckAt = NULL,
 		?int $responseCode = NULL,
-		?int $responseTime = NULL
+		?float $responseTime = NULL
 	) {
 		$this->url = $url;
 		$this->lastCheckAt = $lastCheckAt;
@@ -104,11 +104,11 @@ class Website implements WebsiteInterface {
 		return $this;
 	}
 
-	public function getResponseTime(): ?int {
+	public function getResponseTime(): ?float {
 		return $this->responseTime;
 	}
 
-	public function setResponseTime(?int $responseTime): WebsiteInterface {
+	public function setResponseTime(?float $responseTime): WebsiteInterface {
 		$this->responseTime = $responseTime;
 
 		return $this;
@@ -130,5 +130,13 @@ class Website implements WebsiteInterface {
 		$this->setResponseCode(NULL);
 
 		return $this;
+	}
+
+	public function hesResponseError(): bool {
+		if ($this->responseCode === NULL) {
+			return FALSE;
+		}
+
+		return $this->responseCode >= 400;
 	}
 }
