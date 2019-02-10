@@ -23,3 +23,4 @@ database:
 services:
 #	router: @router::createRouter
 	- Ajda2\WebsiteChecker\Model\WebsiteRepository
+	- Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository
