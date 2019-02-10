@@ -5,6 +5,8 @@ namespace Ajda2\WebsiteChecker\Model\Entity;
 
 interface TestResultInterface {
 
+	public function getTestCode(): string;
+
 	public function isSuccess(): bool;
 
 	public function isFail(): bool;

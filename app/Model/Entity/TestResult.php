@@ -18,15 +18,20 @@ class TestResult implements TestResultInterface {
 	/** @var string|null */
 	private $description;
 
+	/** @var string */
+	private $testCode;
+
 	/**
+	 * @param string      $testCode
 	 * @param bool        $isSuccess
 	 * @param string|null $value
 	 * @param string|null $description
 	 */
-	public function __construct(bool $isSuccess, ?string $value = NULL, ?string $description = NULL) {
+	public function __construct(string $testCode, bool $isSuccess, ?string $value = NULL, ?string $description = NULL) {
 		$this->isSuccess = $isSuccess;
 		$this->value = $value;
 		$this->description = $description;
+		$this->testCode = $testCode;
 	}
 
 	public function isSuccess(): bool {
@@ -43,5 +48,9 @@ class TestResult implements TestResultInterface {
 
 	public function getValue(): ?string {
 		return $this->value;
+	}
+
+	public function getTestCode(): string {
+		return $this->testCode;
 	}
 }

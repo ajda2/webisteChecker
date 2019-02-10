@@ -30,7 +30,7 @@ class RobotsEnable extends AbstractTest {
 
 			$contentAttr = $meta->attributes->getNamedItem('content');
 			if ($contentAttr === NULL) {
-				return new TestResult(FALSE, NULL, "'content' attribute for element meta robots is missing.");
+				return new TestResult($this->getCode(), FALSE, NULL, "'content' attribute for element meta robots is missing.");
 			}
 
 			$value = \str_replace(" ", "", $contentAttr->textContent);
@@ -39,13 +39,13 @@ class RobotsEnable extends AbstractTest {
 		}
 
 		if ($value === NULL) {
-			return new TestResult(TRUE, NULL, "Meta robots is not set. Indexing is enabled by default.");
+			return new TestResult($this->getCode(), TRUE, NULL, "Meta robots is not set. Indexing is enabled by default.");
 		}
 
 		if (\in_array($value, $this->allowed, TRUE)) {
-			return new TestResult(TRUE, $value);
+			return new TestResult($this->getCode(), TRUE, $value);
 		}
 
-		return new TestResult(FALSE, $value);
+		return new TestResult($this->getCode(), FALSE, $value);
 	}
 }

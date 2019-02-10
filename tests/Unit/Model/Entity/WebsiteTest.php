@@ -62,12 +62,12 @@ class WebsiteTest extends TestCase {
 	}
 
 	public function testClearTestResults(): void {
-		$testResult = new TestResult(TRUE);
 		$code = 'code1';
+		$testResult = new TestResult($code, TRUE);
 		$this->item->addTestResult($code, $testResult);
 
-		$testResult = new TestResult(FALSE);
 		$code = 'code2';
+		$testResult = new TestResult($code, FALSE);
 		$this->item->addTestResult($code, $testResult);
 
 		$this->item->clearTestResults();
@@ -80,8 +80,8 @@ class WebsiteTest extends TestCase {
 	}
 
 	public function testAddTestResult(): void {
-		$testResult = new TestResult(TRUE);
 		$code = 'code1';
+		$testResult = new TestResult($code, TRUE);
 		$this->item->addTestResult($code, $testResult);
 
 		$this->assertInstanceOf(ArrayHash::class, $this->item->getTestResults());
@@ -90,8 +90,8 @@ class WebsiteTest extends TestCase {
 		$this->assertInstanceOf(ArrayHash::class, $this->item->getFailingTestResults());
 		$this->assertSame(0, $this->item->getFailingTestResults()->count());
 
-		$testResult = new TestResult(FALSE);
 		$code = 'code2';
+		$testResult = new TestResult($code, FALSE);
 		$this->item->addTestResult($code, $testResult);
 
 		$this->assertInstanceOf(ArrayHash::class, $this->item->getTestResults());
@@ -102,8 +102,8 @@ class WebsiteTest extends TestCase {
 	}
 
 	public function testResetTests(): void {
-		$testResult = new TestResult(FALSE);
 		$code = 'code1';
+		$testResult = new TestResult($code, FALSE);
 		$this->item->addTestResult($code, $testResult);
 
 		$this->item->resetTests();
