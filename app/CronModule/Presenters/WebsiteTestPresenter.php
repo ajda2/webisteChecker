@@ -72,7 +72,13 @@ class WebsiteTestPresenter extends Presenter {
 		$this->tester->runTests($website, $this->requestTimeout);
 	}
 
+	/**
+	 * @param Tester           $tester
+	 * @param WebsiteInterface $website
+	 * @throws \Exception
+	 */
 	public function onWebResponseFail(Tester $tester, WebsiteInterface $website): void {
+		$website->setLastCheckAt(new DateTime());
 		$website->setResponseCode(500);
 
 		if ($website instanceof WebsiteIdentifyInterface) {
