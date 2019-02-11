@@ -3,6 +3,8 @@
 namespace Ajda2\WebsiteChecker\Model\Entity;
 
 
+use Nette\Utils\DateTime;
+
 interface TestResultInterface {
 
 	public function getTestCode(): string;
@@ -14,4 +16,6 @@ interface TestResultInterface {
 	public function getValue(): ?string;
 
 	public function getDescription(): ?string;
+
+	public function getRunAt(): DateTime;
 }

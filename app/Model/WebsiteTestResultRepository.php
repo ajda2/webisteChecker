@@ -27,6 +27,9 @@ class WebsiteTestResultRepository {
 	public const COLUMN_TEST_RESULT_WEBSITE_ID = 'website_id';
 
 	/** @var string */
+	public const COLUMN_TEST_RESULT_RUN_AT = 'run_at';
+
+	/** @var string */
 	public const COLUMN_TEST_RESULT_TEST_CODE = 'test_code';
 
 	/** @var string */
@@ -91,6 +94,7 @@ class WebsiteTestResultRepository {
 	private function fromRowFactory(ActiveRow $row): TestResultInterface {
 		return new TestResult(
 			$row->offsetGet(self::COLUMN_TEST_RESULT_TEST_CODE),
+			$row->offsetGet(self::COLUMN_TEST_RESULT_RUN_AT),
 			(bool)$row->offsetGet(self::COLUMN_TEST_RESULT_IS_SUCCESS),
 			$row->offsetGet(self::COLUMN_TEST_RESULT_VALUE),
 			$row->offsetGet(self::COLUMN_TEST_RESULT_DESCRIPTION)

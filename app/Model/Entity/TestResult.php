@@ -4,6 +4,7 @@ namespace Ajda2\WebsiteChecker\Model\Entity;
 
 
 use Nette\SmartObject;
+use Nette\Utils\DateTime;
 
 class TestResult implements TestResultInterface {
 
@@ -21,17 +22,22 @@ class TestResult implements TestResultInterface {
 	/** @var string */
 	private $testCode;
 
+	/** @var DateTime */
+	private $runAt;
+
 	/**
 	 * @param string      $testCode
+	 * @param DateTime    $runAt
 	 * @param bool        $isSuccess
 	 * @param string|null $value
 	 * @param string|null $description
 	 */
-	public function __construct(string $testCode, bool $isSuccess, ?string $value = NULL, ?string $description = NULL) {
+	public function __construct(string $testCode, DateTime $runAt, bool $isSuccess, ?string $value = NULL, ?string $description = NULL) {
 		$this->isSuccess = $isSuccess;
 		$this->value = $value;
 		$this->description = $description;
 		$this->testCode = $testCode;
+		$this->runAt = $runAt;
 	}
 
 	public function isSuccess(): bool {
@@ -52,5 +58,9 @@ class TestResult implements TestResultInterface {
 
 	public function getTestCode(): string {
 		return $this->testCode;
+	}
+
+	public function getRunAt(): DateTime {
+		return clone $this->runAt;
 	}
 }

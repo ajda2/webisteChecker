@@ -26,6 +26,7 @@ CREATE TABLE `website_test_result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `website_id` int(10) unsigned NOT NULL,
   `test_code` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
+  `run_at` datetime NOT NULL,
   `is_success` tinyint(1) unsigned NOT NULL,
   `value` text COLLATE utf8mb4_unicode_ci,
   `description` text COLLATE utf8mb4_unicode_ci,
@@ -35,4 +36,4 @@ CREATE TABLE `website_test_result` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2019-02-10 19:27:13
+-- 2019-02-11 23:39:29

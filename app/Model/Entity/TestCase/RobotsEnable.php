@@ -6,6 +6,7 @@ namespace Ajda2\WebsiteChecker\Model\Entity\TestCase;
 use Ajda2\WebsiteChecker\Model\Entity\AbstractTest;
 use Ajda2\WebsiteChecker\Model\Entity\TestResult;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
+use Nette\Utils\DateTime;
 
 class RobotsEnable extends AbstractTest {
 
@@ -17,6 +18,11 @@ class RobotsEnable extends AbstractTest {
 		'follow,index'
 	];
 
+	/**
+	 * @param \DOMDocument $document
+	 * @return TestResultInterface
+	 * @throws \Exception
+	 */
 	public function run(\DOMDocument $document): TestResultInterface {
 		$value = NULL;
 
@@ -30,7 +36,7 @@ class RobotsEnable extends AbstractTest {
 
 			$contentAttr = $meta->attributes->getNamedItem('content');
 			if ($contentAttr === NULL) {
-				return new TestResult($this->getCode(), FALSE, NULL, "'content' attribute for element meta robots is missing.");
+				return new TestResult($this->getCode(), new DateTime(), FALSE, NULL, "'content' attribute for element meta robots is missing.");
 			}
 
 			$value = \str_replace(" ", "", $contentAttr->textContent);
@@ -39,13 +45,13 @@ class RobotsEnable extends AbstractTest {
 		}
 
 		if ($value === NULL) {
-			return new TestResult($this->getCode(), TRUE, NULL, "Meta robots is not set. Indexing is enabled by default.");
+			return new TestResult($this->getCode(), new DateTime(), TRUE, NULL, "Meta robots is not set. Indexing is enabled by default.");
 		}
 
 		if (\in_array($value, $this->allowed, TRUE)) {
-			return new TestResult($this->getCode(), TRUE, $value);
+			return new TestResult($this->getCode(), new DateTime(), TRUE, $value);
 		}
 
-		return new TestResult($this->getCode(), FALSE, $value);
+		return new TestResult($this->getCode(), new DateTime(), FALSE, $value);
 	}
 }
