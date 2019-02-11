@@ -9,13 +9,48 @@
 			response_time="1.56"
 			tests_data=""
 	/>
+	<website
+			id="2"
+			url="https://www.surface.cz/"
+			has_failing_test="1"
+			last_check_at="2019-02-08 16:49:00"
+			response_code="404"
+			response_time="1.8"
+			tests_data=""
+	/>
+	<website
+			id="3"
+			url="https://www.surface.cz/"
+			has_failing_test="1"
+			last_check_at="2019-02-08 16:49:00"
+			response_code="404"
+			response_time="1.8"
+			tests_data=""
+	/>
 
 	<website_test_result
 			id="1"
 			website_id="1"
+			test_code="test1"
 			is_success="1"
 			value="Value"
 			description="Description"
+	/>
+	<website_test_result
+			id="2"
+			website_id="2"
+			test_code="test2"
+			is_success="0"
+			value="Fail"
+			description="Failing test"
+	/>
+	<website_test_result
+			id="3"
+			website_id="3"
+			test_code="test3"
+			is_success="0"
+			value="Fail"
+			description="Failing test"
 	/>
 
 </dataset>

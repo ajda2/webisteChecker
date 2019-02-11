@@ -91,7 +91,7 @@ class WebsiteTestResultRepository {
 	private function fromRowFactory(ActiveRow $row): TestResultInterface {
 		return new TestResult(
 			$row->offsetGet(self::COLUMN_TEST_RESULT_TEST_CODE),
-			$row->offsetGet(self::COLUMN_TEST_RESULT_IS_SUCCESS),
+			(bool)$row->offsetGet(self::COLUMN_TEST_RESULT_IS_SUCCESS),
 			$row->offsetGet(self::COLUMN_TEST_RESULT_VALUE),
 			$row->offsetGet(self::COLUMN_TEST_RESULT_DESCRIPTION)
 		);
