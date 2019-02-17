@@ -91,6 +91,34 @@ class WebsiteTestResultRepository {
 		return $result;
 	}
 
+	/**
+	 * @param TestResultInterface $testResult
+	 * @param int                 $websiteId
+	 * @return TestResultInterface
+	 * @throws PersistException
+	 */
+	public function storeResult(TestResultInterface $testResult, int $websiteId): TestResultInterface {
+		$data = [
+			self::COLUMN_TEST_RESULT_WEBSITE_ID  => $websiteId,
+			self::COLUMN_TEST_RESULT_TEST_CODE   => $testResult->getTestCode(),
+			self::COLUMN_TEST_RESULT_RUN_AT      => $testResult->getRunAt(),
+			self::COLUMN_TEST_RESULT_IS_SUCCESS  => $testResult->isSuccess(),
+			self::COLUMN_TEST_RESULT_VALUE       => $testResult->getValue(),
+			self::COLUMN_TEST_RESULT_DESCRIPTION => $testResult->getDescription()
+		];
+
+		try {
+			/** @var ActiveRow $row */
+			$row = $this->database->table(self::TABLE_TEST_RESULT)->insert($data);
+
+			return $this->fromRowFactory($row);
+		} catch (DriverException $e) {
+			$this->logger->log($e, $this->logger::ERROR);
+
+			throw new PersistException();
+		}
+	}
+
 	private function fromRowFactory(ActiveRow $row): TestResultInterface {
 		return new TestResult(
 			$row->offsetGet(self::COLUMN_TEST_RESULT_TEST_CODE),

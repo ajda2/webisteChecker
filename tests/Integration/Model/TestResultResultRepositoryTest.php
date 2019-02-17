@@ -2,12 +2,14 @@
 
 namespace Ajda2\WebsiteChecker\Tests\Integration\Model;
 
+use Ajda2\WebsiteChecker\Model\Entity\TestResult;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Ajda2\WebsiteChecker\Tests\Integration\Bootstrap;
 use Ajda2\WebsiteChecker\Tests\Integration\DbTestCase;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\ArrayList;
+use Nette\Utils\DateTime;
 use PHPUnit\DbUnit\DataSet\IDataSet;
 
 class WebsiteTestResultRepositoryTest extends DbTestCase {
@@ -43,6 +45,29 @@ class WebsiteTestResultRepositoryTest extends DbTestCase {
 		$this->assertSame(2, $result->count());
 		$this->assertInstanceOf(ArrayList::class, $result->offsetGet(1));
 		$this->assertInstanceOf(TestResultInterface::class, $result->offsetGet(1)->offsetGet(0));
+	}
+
+	/**
+	 * @throws \Exception
+	 */
+	public function testStoreResult(): void {
+		$testCode = 'new test';
+		$runAt = new DateTime();
+		$isSuccess = TRUE;
+		$value = 'test value';
+		$description = 'test description';
+		$websiteId = 2;
+
+		$item = new TestResult($testCode, $runAt, $isSuccess, $value, $description);
+
+		$result = $this->testResultRepository->storeResult($item, $websiteId);
+
+		$this->assertInstanceOf(TestResultInterface::class, $result);
+		$this->assertSame($testCode, $result->getTestCode());
+		$this->assertSame($runAt->getTimestamp(), $result->getRunAt()->getTimestamp());
+		$this->assertSame($isSuccess, $result->isSuccess());
+		$this->assertSame($value, $result->getValue());
+		$this->assertEquals($description, $result->getDescription());
 	}
 
 	/**
