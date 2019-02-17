@@ -10,10 +10,12 @@ use Ajda2\WebsiteChecker\Model\Entity\WebsiteInterface;
 use Ajda2\WebsiteChecker\Model\PersistException;
 use Ajda2\WebsiteChecker\Model\Tester;
 use Ajda2\WebsiteChecker\Model\WebsiteRepository;
+use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\DateTime;
 use Psr\Http\Message\ResponseInterface;
+use Tracy\ILogger;
 
 class WebsiteTestPresenter extends Presenter {
 
@@ -22,6 +24,12 @@ class WebsiteTestPresenter extends Presenter {
 
 	/** @var WebsiteRepository @inject */
 	public $websiteRepository;
+
+	/** @var WebsiteTestResultRepository @inject */
+	public $websiteTestRepository;
+
+	/** @var ILogger @inject */
+	public $logger;
 
 	/** @var float */
 	private $requestTimeout = 4.0;
@@ -44,6 +52,10 @@ class WebsiteTestPresenter extends Presenter {
 		$this->tester->onTestFail[] = [
 			$this,
 			'onTestFail'
+		];
+		$this->tester->onTestComplete[] = [
+			$this,
+			'onTestComplete'
 		];
 	}
 
@@ -115,5 +127,15 @@ class WebsiteTestPresenter extends Presenter {
 
 	public function onTestSuccess(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult): void {
 
+	}
+
+	public function onTestComplete(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult): void {
+		if ($website instanceof WebsiteIdentifyInterface) {
+			try {
+				$this->websiteTestRepository->storeResult($testResult, $website->getId());
+			} catch (PersistException $e) {
+				$this->logger->log($e, $this->logger::ERROR);
+			}
+		}
 	}
 }

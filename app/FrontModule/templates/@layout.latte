@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs">
+<head>
+
+	<title>Kontrola webů</title>
+	<meta name="robots" content="noindex, nofollow">
+
+	<link rel="stylesheet" type="text/css" href="{$basePath}/assets/bootstrap/dist/css/bootstrap.css">
+
+	<!-- Use this css for that pretty checkboxes (https://github.com/paveljanda/happy) -->
+	<link rel="stylesheet" type="text/css" href="{$basePath}/assets/happy/dist/happy.css">
+	<link rel="stylesheet" type="text/css" href="{$basePath}/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
+	<link rel="stylesheet" type="text/css" href="{$basePath}/assets/ublaboo-datagrid/assets/dist/datagrid.css">
+
+	<!-- Use this css for ajax spinners -->
+	<link rel="stylesheet" type="text/css" href="{$basePath}/assets/ublaboo-datagrid/assets/dist/datagrid-spinners.css">
+
+	<!-- Include this css when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
+	{*<link rel="stylesheet" type="text/css" href="{$basePath}/assets/bootstrap-select/dist/css/bootstrap-select.css">*}
+</head>
+
+<body>
+
+{include content}
+
+{snippet flashes}
+	<div n:ifcontent class="container">
+		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
+	</div>
+{/snippet}
+
+{block scripts}
+	<script src="{$basePath}/assets/jquery/dist/jquery.js"></script>
+	<script src="{$basePath}/assets/nette-forms/src/assets/netteForms.js"></script>
+	<script src="{$basePath}/assets/nette.ajax.js/nette.ajax.js"></script>
+
+	<!-- Use this tiny js for that pretty checkboxes (https://github.com/paveljanda/happy) -->
+	<script src="{$basePath}/assets/happy/dist/happy.js"></script>
+	<script src="{$basePath}/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+	<script src="{$basePath}/assets/jquery-ui-sortable/jquery-ui-sortable.js"></script>
+	<script src="{$basePath}/assets/ublaboo-datagrid/assets/dist/datagrid.js"></script>
+
+	<!-- It is recommended to include this JS file with just a few bits. It refreshes URL on non ajax request -->
+	<script src="{$basePath}/assets/ublaboo-datagrid/assets/dist/datagrid-instant-url-refresh.js"></script>
+
+	<!-- Use this little extension for ajax spinners -->
+	<script src="{$basePath}/assets/ublaboo-datagrid/assets/dist/datagrid-spinners.js"></script>
+
+	<!-- Include bootstrap.js for proper behaviour of ColumnStatus -->
+	<script src="{$basePath}/assets/bootstrap/dist/js/bootstrap.js"></script>
+
+	<!-- Include bootstrap-select.js when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
+	{*<script src="{$basePath}/assets/bootstrap-select/dist/js/bootstrap-select.js"></script>*}
+
+	<script>
+		$.nette.init();
+	</script>
+{/block}
+</body>
+</html>

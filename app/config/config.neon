@@ -21,6 +21,9 @@ database:
 		password: %database.password%
 
 services:
-#	router: @router::createRouter
+	router: Nette\Application\Routers\SimpleRouter('Front:Homepage:default')
+
 	- Ajda2\WebsiteChecker\Model\WebsiteRepository
 	- Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository
+	- Ajda2\WebsiteChecker\Model\Tester
+	- Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory

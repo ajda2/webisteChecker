@@ -19,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
  * @package Ajda2\WebsiteChecker\Model
  * @method onTestSuccess(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
  * @method onTestFail(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
+ * @method onTestComplete(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
  * @method onWebResponse(Tester $tester, WebsiteInterface $website, ResponseInterface $response, float $responseTime)
  * @method onWebResponseFail(Tester $tester, WebsiteInterface $website)
  */
@@ -31,6 +32,9 @@ class Tester {
 
 	/** @var array|callable[]|\Closure[] */
 	public $onTestFail = [];
+
+	/** @var array|callable[]|\Closure[] */
+	public $onTestComplete = [];
 
 	/** @var array|callable[]|\Closure[] */
 	public $onWebResponse = [];
@@ -91,6 +95,8 @@ class Tester {
 			} else {
 				$this->onTestFail($this, $website, $test, $result);
 			}
+
+			$this->onTestComplete($this, $website, $test, $result);
 		}
 
 		return TRUE;
