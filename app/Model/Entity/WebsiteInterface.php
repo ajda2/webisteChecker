@@ -38,5 +38,5 @@ interface WebsiteInterface {
 	 * Clean all results and all other tests data
 	 * @return WebsiteInterface
 	 */
-	public function resetTests(): WebsiteInterface;
+	public function resetState(): WebsiteInterface;
 }

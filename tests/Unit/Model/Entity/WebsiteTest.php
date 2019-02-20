@@ -106,7 +106,7 @@ class WebsiteTest extends TestCase {
 		$testResult = new TestResult($code, new DateTime(), FALSE);
 		$this->item->addTestResult($code, $testResult);
 
-		$this->item->resetTests();
+		$this->item->resetState();
 
 		$this->assertNull($this->item->getResponseCode());
 		$this->assertNull($this->item->getResponseTime());

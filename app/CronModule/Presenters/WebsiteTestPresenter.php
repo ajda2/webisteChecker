@@ -78,7 +78,7 @@ class WebsiteTestPresenter extends Presenter {
 			return;
 		}
 
-		$website->resetTests();
+		$website->resetState();
 		$this->websiteTestRepository->removeWebsiteResults($website->getId());
 
 		$this->tester->runTests($website, $this->requestTimeout);

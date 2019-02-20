@@ -123,8 +123,8 @@ class WebsiteGridFactory {
 
 
 		$grid->setRowCallback(
-			function (ActiveRow $item, $tr) {
-				if ($item->offsetGet('has_failing_test')) {
+			function (ActiveRow $item, $tr): void {
+				if ((bool)$item->offsetGet('has_failing_test')) {
 					$tr->addClass('error');
 				}
 			}

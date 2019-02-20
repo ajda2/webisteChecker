@@ -124,7 +124,7 @@ class Website implements WebsiteInterface {
 		return $this;
 	}
 
-	public function resetTests(): WebsiteInterface {
+	public function resetState(): WebsiteInterface {
 		$this->clearTestResults();
 		$this->setResponseTime(NULL);
 		$this->setResponseCode(NULL);

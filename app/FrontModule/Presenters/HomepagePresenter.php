@@ -74,7 +74,7 @@ class HomepagePresenter extends Presenter {
 			throw new InvalidStateException();
 		}
 
-		$website->resetTests();
+		$website->resetState();
 		$this->websiteRepository->save($website);
 		$this->websiteTestRepository->removeWebsiteResults($website->getId());
 
