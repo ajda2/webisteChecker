@@ -17,11 +17,11 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class Tester
  * @package Ajda2\WebsiteChecker\Model
+ * @method onWebResponse(Tester $tester, WebsiteInterface $website, ResponseInterface $response, float $responseTime)
+ * @method onWebResponseFail(Tester $tester, WebsiteInterface $website)
  * @method onTestSuccess(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
  * @method onTestFail(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
  * @method onTestComplete(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult)
- * @method onWebResponse(Tester $tester, WebsiteInterface $website, ResponseInterface $response, float $responseTime)
- * @method onWebResponseFail(Tester $tester, WebsiteInterface $website)
  */
 class Tester {
 
