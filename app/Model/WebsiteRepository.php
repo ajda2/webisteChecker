@@ -96,6 +96,8 @@ class WebsiteRepository {
 			"{$tableName}.id",
 			"1 AS robots",
 			"1 AS robotsDescription",
+			"1 AS metaTitle",
+			"1 AS metaTitleDescription",
 		];
 
 		return $this->database->table($tableName)

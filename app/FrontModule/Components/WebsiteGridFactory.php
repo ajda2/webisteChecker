@@ -23,7 +23,7 @@ class WebsiteGridFactory {
 
 	/**
 	 * WebsiteGridFactory constructor.
-	 * @param WebsiteRepository $websiteRepository
+	 * @param WebsiteRepository           $websiteRepository
 	 * @param WebsiteTestResultRepository $testResultRepository
 	 */
 	public function __construct(WebsiteRepository $websiteRepository, WebsiteTestResultRepository $testResultRepository) {
@@ -31,7 +31,12 @@ class WebsiteGridFactory {
 		$this->testResultRepository = $testResultRepository;
 	}
 
-	public function create(): DataGrid {
+	/**
+	 * @param array|string[] $resultCodes
+	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
+	 */
+	public function create(array $resultCodes): DataGrid {
 		$grid = new DataGrid();
 		$grid->setDefaultSort(
 			[
@@ -72,29 +77,32 @@ class WebsiteGridFactory {
 			->setSortable();
 		$grid->addColumnNumber('response_code', 'HTTP Kód');
 
-		$testCode = 'robots';
-		$grid->addColumnText($testCode, "Roboti")
-			->setRenderer(
-				function (ActiveRow $row) use ($testResults, $testCode): string {
-					$websiteId = $row->offsetGet('id');
 
-					if (!$testResults->offsetExists($websiteId)) {
-						return '';
+		foreach ($resultCodes as $testCode => $name) {
+			$grid->addColumnText($testCode, $name)
+				->setRenderer(
+					function (ActiveRow $row) use ($testResults, $testCode): string {
+						$websiteId = $row->offsetGet('id');
+
+						if (!$testResults->offsetExists($websiteId)) {
+							return '';
+						}
+
+						/** @var ArrayHash $results */
+						$results = $testResults->offsetGet($websiteId);
+
+						if (!$results->offsetExists($testCode)) {
+							return '';
+						}
+
+						/** @var TestResultInterface $result */
+						$result = $results->offsetGet($testCode);
+
+						return (string)$result->getValue();
 					}
+				);
+		}
 
-					/** @var ArrayHash $results */
-					$results = $testResults->offsetGet($websiteId);
-
-					if (!$results->offsetExists($testCode)) {
-						return '';
-					}
-
-					/** @var TestResultInterface $result */
-					$result = $results->offsetGet($testCode);
-
-					return (string)$result->getValue();
-				}
-			);
 
 		$grid->addColumnText('has_failing_test', 'Stav')
 			->setSortable()

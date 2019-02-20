@@ -146,8 +146,15 @@ class HomepagePresenter extends Presenter {
 
 	/**
 	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
 	 */
 	protected function createComponentGrid(): DataGrid {
-		return $this->gridFactory->create();
+		$tests = [];
+
+		foreach ($this->tester->getTests() as $test) {
+			$tests[$test->getCode()] = $test->getName();
+		}
+
+		return $this->gridFactory->create($tests);
 	}
 }

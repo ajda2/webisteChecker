@@ -31,3 +31,4 @@ services:
 		class: Ajda2\WebsiteChecker\Model\Tester
 		setup:
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsEnable(robots, Roboti) )
+			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\MetaTitle(title, Title) )

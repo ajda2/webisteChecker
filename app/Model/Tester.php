@@ -63,6 +63,9 @@ class Tester {
 		return $this;
 	}
 
+	/**
+	 * @return ArrayHash|TestInterface[]
+	 */
 	public function getTests(): ArrayHash {
 		return clone $this->tests;
 	}
