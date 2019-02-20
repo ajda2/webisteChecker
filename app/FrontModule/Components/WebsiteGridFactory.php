@@ -23,7 +23,7 @@ class WebsiteGridFactory {
 
 	/**
 	 * WebsiteGridFactory constructor.
-	 * @param WebsiteRepository           $websiteRepository
+	 * @param WebsiteRepository $websiteRepository
 	 * @param WebsiteTestResultRepository $testResultRepository
 	 */
 	public function __construct(WebsiteRepository $websiteRepository, WebsiteTestResultRepository $testResultRepository) {
@@ -33,7 +33,18 @@ class WebsiteGridFactory {
 
 	public function create(): DataGrid {
 		$grid = new DataGrid();
-		$grid->setDefaultSort(["start_at" => "DESC"]);
+		$grid->setDefaultSort(
+			[
+				"has_failing_test" => "DESC",
+				"start_at"         => "ASC"
+			]
+		);
+		$grid->setItemsPerPageList(
+			[
+				500,
+				1000
+			]
+		);
 		$grid->setDefaultPerPage(500);
 
 		$dataSource = $this->websiteRepository->gridData();
@@ -59,6 +70,7 @@ class WebsiteGridFactory {
 		$grid->addColumnNumber('response_time', 'Čas odpovědi [s]')
 			->setFormat(5)
 			->setSortable();
+		$grid->addColumnNumber('response_code', 'HTTP Kód');
 
 		$testCode = 'robots';
 		$grid->addColumnText($testCode, "Roboti")
