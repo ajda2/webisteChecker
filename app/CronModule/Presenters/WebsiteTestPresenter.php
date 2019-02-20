@@ -79,9 +79,11 @@ class WebsiteTestPresenter extends Presenter {
 		}
 
 		$website->resetTests();
-		$this->websiteRepository->save($website);
+		$this->websiteTestRepository->removeWebsiteResults($website->getId());
 
 		$this->tester->runTests($website, $this->requestTimeout);
+
+		$this->websiteRepository->save($website);
 	}
 
 	/**
@@ -132,6 +134,8 @@ class WebsiteTestPresenter extends Presenter {
 	public function onTestComplete(Tester $tester, WebsiteInterface $website, TestInterface $test, TestResultInterface $testResult): void {
 		if ($website instanceof WebsiteIdentifyInterface) {
 			try {
+				$website->addTestResult($testResult->getTestCode(), $testResult);
+
 				$this->websiteTestRepository->storeResult($testResult, $website->getId());
 			} catch (PersistException $e) {
 				$this->logger->log($e, $this->logger::ERROR);

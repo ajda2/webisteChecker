@@ -30,7 +30,7 @@ class RobotsEnable extends AbstractTest {
 		foreach ($document->getElementsByTagName('meta') as $meta) {
 			$nameAttr = $meta->attributes->getNamedItem('name');
 
-			if ($nameAttr !== NULL && $nameAttr->textContent !== 'robots') {
+			if ($nameAttr === NULL || $nameAttr->textContent !== 'robots') {
 				continue;
 			}
 

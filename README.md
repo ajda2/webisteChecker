@@ -2,6 +2,6 @@
 
 ## TODO
 
-- Automatické spouštění testů webu v pořadí
 - Grafický výstup pro uživatele
+- Automatické spouštění testů webu v pořadí
 - Události při failnutí testu

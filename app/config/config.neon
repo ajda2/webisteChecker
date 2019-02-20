@@ -25,5 +25,9 @@ services:
 
 	- Ajda2\WebsiteChecker\Model\WebsiteRepository
 	- Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository
-	- Ajda2\WebsiteChecker\Model\Tester
 	- Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory
+
+	tester:
+		class: Ajda2\WebsiteChecker\Model\Tester
+		setup:
+			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsEnable(robots, Roboti) )
