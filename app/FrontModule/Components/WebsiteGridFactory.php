@@ -122,6 +122,14 @@ class WebsiteGridFactory {
 			);
 
 
+		$grid->setRowCallback(
+			function (ActiveRow $item, $tr) {
+				if ($item->offsetGet('has_failing_test')) {
+					$tr->addClass('error');
+				}
+			}
+		);
+
 		return $grid;
 	}
 }
