@@ -10,7 +10,6 @@ use Nette\Database\DriverException;
 use Nette\Database\Table\ActiveRow;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
-use Nette\Utils\ArrayList;
 use Tracy\ILogger;
 
 class WebsiteTestResultRepository {
@@ -82,10 +81,10 @@ class WebsiteTestResultRepository {
 			$websiteId = (int)$row->offsetGet(self::COLUMN_TEST_RESULT_WEBSITE_ID);
 
 			if (!$result->offsetExists($websiteId)) {
-				$result->offsetSet($websiteId, new ArrayList());
+				$result->offsetSet($websiteId, new ArrayHash());
 			}
 
-			$result[$websiteId][] = $this->fromRowFactory($row);
+			$result[$websiteId][$row->offsetGet(self::COLUMN_TEST_RESULT_TEST_CODE)] = $this->fromRowFactory($row);
 		}
 
 		return $result;

@@ -3,8 +3,12 @@
 namespace Ajda2\WebsiteChecker\FrontModule\Components;
 
 
+use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\WebsiteRepository;
+use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
+use Nette\Database\Table\ActiveRow;
 use Nette\SmartObject;
+use Nette\Utils\ArrayHash;
 use Ublaboo\DataGrid\DataGrid;
 
 class WebsiteGridFactory {
@@ -14,15 +18,35 @@ class WebsiteGridFactory {
 	/** @var WebsiteRepository */
 	private $websiteRepository;
 
-	public function __construct(WebsiteRepository $websiteRepository) {
+	/** @var WebsiteTestResultRepository */
+	private $testResultRepository;
+
+	/**
+	 * WebsiteGridFactory constructor.
+	 * @param WebsiteRepository           $websiteRepository
+	 * @param WebsiteTestResultRepository $testResultRepository
+	 */
+	public function __construct(WebsiteRepository $websiteRepository, WebsiteTestResultRepository $testResultRepository) {
 		$this->websiteRepository = $websiteRepository;
+		$this->testResultRepository = $testResultRepository;
 	}
 
 	public function create(): DataGrid {
 		$grid = new DataGrid();
-		//		$grid->setDefaultSort(["start_at" => "DESC"]);
+		$grid->setDefaultSort(["start_at" => "DESC"]);
+		$grid->setDefaultPerPage(500);
 
-		$grid->setDataSource($this->websiteRepository->gridData());
+		$dataSource = $this->websiteRepository->gridData();
+		$websiteIds = [];
+
+		/** @var ActiveRow $row */
+		foreach ($dataSource as $row) {
+			$websiteIds[] = $row->offsetGet('id');
+		}
+
+		$testResults = $this->testResultRepository->getResults($websiteIds);
+
+		$grid->setDataSource($dataSource);
 
 		$grid->addColumnText('url', 'Web')
 			->setSortable()
@@ -31,6 +55,34 @@ class WebsiteGridFactory {
 		$grid->addColumnDateTime('last_check_at', 'Kontrolováno')
 			->setFormat('j.n.Y G:i:s')
 			->setSortable();
+
+		$grid->addColumnNumber('response_time', 'Čas odpovědi [s]')
+			->setFormat(5)
+			->setSortable();
+
+		$testCode = 'robots';
+		$grid->addColumnText($testCode, "Roboti")
+			->setRenderer(
+				function (ActiveRow $row) use ($testResults, $testCode): string {
+					$websiteId = $row->offsetGet('id');
+
+					if (!$testResults->offsetExists($websiteId)) {
+						return '';
+					}
+
+					/** @var ArrayHash $results */
+					$results = $testResults->offsetGet($websiteId);
+
+					if (!$results->offsetExists($testCode)) {
+						return '';
+					}
+
+					/** @var TestResultInterface $result */
+					$result = $results->offsetGet($testCode);
+
+					return (string)$result->getValue();
+				}
+			);
 
 		$grid->addColumnText('has_failing_test', 'Stav')
 			->setSortable()

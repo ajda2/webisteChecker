@@ -93,7 +93,9 @@ class WebsiteRepository {
 			"{$tableName}.last_check_at",
 			"{$tableName}.has_failing_test",
 			"{$tableName}.url",
-			"{$tableName}.id"
+			"{$tableName}.id",
+			"1 AS robots",
+			"1 AS robotsDescription",
 		];
 
 		return $this->database->table($tableName)

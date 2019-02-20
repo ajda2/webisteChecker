@@ -8,7 +8,6 @@ use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Ajda2\WebsiteChecker\Tests\Integration\Bootstrap;
 use Ajda2\WebsiteChecker\Tests\Integration\DbTestCase;
 use Nette\Utils\ArrayHash;
-use Nette\Utils\ArrayList;
 use Nette\Utils\DateTime;
 use PHPUnit\DbUnit\DataSet\IDataSet;
 
@@ -43,8 +42,8 @@ class WebsiteTestResultRepositoryTest extends DbTestCase {
 
 		$this->assertInstanceOf(ArrayHash::class, $result);
 		$this->assertSame(2, $result->count());
-		$this->assertInstanceOf(ArrayList::class, $result->offsetGet(1));
-		$this->assertInstanceOf(TestResultInterface::class, $result->offsetGet(1)->offsetGet(0));
+		$this->assertInstanceOf(ArrayHash::class, $result->offsetGet(1));
+		$this->assertInstanceOf(TestResultInterface::class, $result->offsetGet(1)->offsetGet('test1'));
 	}
 
 	/**
