@@ -64,9 +64,6 @@ class HomepagePresenter extends Presenter {
 		];
 	}
 
-	/**
-	 * @throws PersistException
-	 */
 	public function handleRunTest(): void {
 		$website = $this->websiteRepository->getWebsiteForTest();
 
@@ -74,13 +71,17 @@ class HomepagePresenter extends Presenter {
 			throw new InvalidStateException();
 		}
 
-		$website->resetState();
-		$this->websiteRepository->save($website);
-		$this->websiteTestRepository->removeWebsiteResults($website->getId());
+		$this->runTests($website);
 
-		$this->tester->runTests($website, $this->requestTimeout);
+		if ($this->isAjax()) {
+			$this->redrawControl();
+		}
+	}
 
-		$this->websiteRepository->save($website);
+	public function handleTestWeb(int $id): void {
+		$website = $this->websiteRepository->getById($id);
+
+		$this->runTests($website);
 
 		if ($this->isAjax()) {
 			$this->redrawControl();
@@ -156,5 +157,21 @@ class HomepagePresenter extends Presenter {
 		}
 
 		return $this->gridFactory->create($tests);
+	}
+
+	private function runTests(WebsiteIdentifyInterface $website): bool {
+		try {
+			$website->resetState();
+			$this->websiteRepository->save($website);
+			$this->websiteTestRepository->removeWebsiteResults($website->getId());
+
+			$this->tester->runTests($website, $this->requestTimeout);
+
+			$this->websiteRepository->save($website);
+		} catch (PersistException $e) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 }

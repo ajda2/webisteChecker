@@ -9,6 +9,7 @@ use Nette\Database\Context;
 use Nette\Database\DriverException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Url;
+use Nette\InvalidStateException;
 use Nette\SmartObject;
 use Tracy\ILogger;
 
@@ -53,6 +54,21 @@ class WebsiteRepository {
 
 		if (!$row instanceof ActiveRow) {
 			return NULL;
+		}
+
+		return $this->fromRowFactory($row);
+	}
+
+	/**
+	 * @param int $id
+	 * @return WebsiteIdentifyInterface
+	 * @throws InvalidStateException
+	 */
+	public function getById(int $id): WebsiteIdentifyInterface {
+		$row = $this->database->table(self::TABLE_WEBSITE)->get($id);
+
+		if (!$row instanceof ActiveRow) {
+			throw new InvalidStateException();
 		}
 
 		return $this->fromRowFactory($row);

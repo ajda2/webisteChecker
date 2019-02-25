@@ -130,6 +130,9 @@ class WebsiteGridFactory {
 			}
 		);
 
+		$grid->addAction('test', "Zkontrolovat", "testWeb!")
+			->setClass('btn btn-primary ajax');
+
 		return $grid;
 	}
 }
