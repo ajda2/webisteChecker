@@ -4,6 +4,7 @@ namespace Ajda2\WebsiteChecker\FrontModule\Components;
 
 
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
+use Ajda2\WebsiteChecker\Model\WebsiteFacade;
 use Ajda2\WebsiteChecker\Model\WebsiteRepository;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Database\Table\ActiveRow;
@@ -16,18 +17,18 @@ class WebsiteGridFactory {
 	use SmartObject;
 
 	/** @var WebsiteRepository */
-	private $websiteRepository;
+	private $websiteFacade;
 
 	/** @var WebsiteTestResultRepository */
 	private $testResultRepository;
 
 	/**
 	 * WebsiteGridFactory constructor.
-	 * @param WebsiteRepository           $websiteRepository
+	 * @param WebsiteFacade               $websiteFacade
 	 * @param WebsiteTestResultRepository $testResultRepository
 	 */
-	public function __construct(WebsiteRepository $websiteRepository, WebsiteTestResultRepository $testResultRepository) {
-		$this->websiteRepository = $websiteRepository;
+	public function __construct(WebsiteFacade $websiteFacade, WebsiteTestResultRepository $testResultRepository) {
+		$this->websiteFacade = $websiteFacade;
 		$this->testResultRepository = $testResultRepository;
 	}
 
@@ -52,7 +53,7 @@ class WebsiteGridFactory {
 		);
 		$grid->setDefaultPerPage(500);
 
-		$dataSource = $this->websiteRepository->gridData();
+		$dataSource = $this->websiteFacade->gridData();
 		$websiteIds = [];
 
 		/** @var ActiveRow $row */

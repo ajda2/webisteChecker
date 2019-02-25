@@ -25,6 +25,7 @@ services:
 
 	- Ajda2\WebsiteChecker\Model\WebsiteRepository
 	- Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository
+	- Ajda2\WebsiteChecker\Model\WebsiteFacade
 	- Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory
 
 	tester:

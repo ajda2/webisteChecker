@@ -84,26 +84,6 @@ class WebsiteRepository {
 		return $website;
 	}
 
-	public function gridData(): Selection {
-		$tableName = self::TABLE_WEBSITE;
-
-		$columns = [
-			"{$tableName}.response_time",
-			"{$tableName}.response_code",
-			"{$tableName}.last_check_at",
-			"{$tableName}.has_failing_test",
-			"{$tableName}.url",
-			"{$tableName}.id",
-			"1 AS robots",
-			"1 AS robotsDescription",
-			"1 AS metaTitle",
-			"1 AS metaTitleDescription",
-		];
-
-		return $this->database->table($tableName)
-			->select(\implode(", ", $columns));
-	}
-
 	private function fromRowFactory(ActiveRow $row): WebsiteIdentifyInterface {
 		$url = new Url($row->offsetGet(self::COLUMN_WEBSITE_URL));
 
