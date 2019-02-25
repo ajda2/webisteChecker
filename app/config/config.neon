@@ -33,3 +33,4 @@ services:
 		setup:
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsEnable(robots, Roboti) )
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\MetaTitle(title, Title) )
+			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\H1(h1, H1) )

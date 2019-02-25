@@ -29,7 +29,7 @@ class H1 extends AbstractTest {
 		}
 
 		if ($value === NULL) {
-			return new TestResult($this->getCode(), new DateTime(), TRUE, NULL, "H1 element is missing.");
+			return new TestResult($this->getCode(), new DateTime(), FALSE, NULL, "H1 element is missing.");
 		}
 
 		if (!Validators::isNone($value)) {
