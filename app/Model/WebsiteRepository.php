@@ -8,7 +8,6 @@ use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
 use Nette\Database\DriverException;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 use Nette\Http\Url;
 use Nette\SmartObject;
 use Tracy\ILogger;

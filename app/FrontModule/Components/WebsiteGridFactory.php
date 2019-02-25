@@ -5,7 +5,6 @@ namespace Ajda2\WebsiteChecker\FrontModule\Components;
 
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\WebsiteFacade;
-use Ajda2\WebsiteChecker\Model\WebsiteRepository;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\SmartObject;
@@ -16,7 +15,7 @@ class WebsiteGridFactory {
 
 	use SmartObject;
 
-	/** @var WebsiteRepository */
+	/** @var WebsiteFacade */
 	private $websiteFacade;
 
 	/** @var WebsiteTestResultRepository */
