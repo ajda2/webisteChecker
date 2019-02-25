@@ -41,6 +41,7 @@ class WebsiteFacade {
 			"1 AS robotsDescription",
 			"1 AS metaTitle",
 			"1 AS metaTitleDescription",
+			"1 AS metaDescription",
 			"1 AS h1",
 		];
 
