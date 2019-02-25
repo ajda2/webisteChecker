@@ -3,7 +3,6 @@
 namespace Ajda2\WebsiteChecker\Tests\Unit\Model\Entity\TestCase;
 
 use Ajda2\WebsiteChecker\Model\Entity\TestCase\H1;
-use Ajda2\WebsiteChecker\Model\Entity\TestCase\MetaTitle;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
