@@ -29,7 +29,7 @@ class MetaTitle extends AbstractTest {
 		}
 
 		if ($value === NULL) {
-			return new TestResult($this->getCode(), new DateTime(), TRUE, NULL, "Title element is missing.");
+			return new TestResult($this->getCode(), new DateTime(), FALSE, NULL, "Title element is missing.");
 		}
 
 		if (!Validators::isNone($value)) {

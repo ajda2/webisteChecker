@@ -91,7 +91,7 @@ class MetaTitleTest extends TestCase {
 
 		$this->assertInstanceOf(TestResultInterface::class, $result);
 		$this->assertNull($result->getValue());
-		$this->assertTrue($result->isSuccess());
-		$this->assertFalse($result->isFail());
+		$this->assertFalse($result->isSuccess());
+		$this->assertTrue($result->isFail());
 	}
 }
