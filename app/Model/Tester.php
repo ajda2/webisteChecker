@@ -91,7 +91,7 @@ class Tester {
 		$document = $doc->loadHTML((string)$response->getBody());
 
 		foreach ($this->tests as $test) {
-			$result = $test->run($document);
+			$result = $test->run($website->getUrl(), $document);
 
 			if ($result->isSuccess()) {
 				$this->onTestSuccess($this, $website, $test, $result);

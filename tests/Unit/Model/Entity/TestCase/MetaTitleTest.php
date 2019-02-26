@@ -4,6 +4,7 @@ namespace Ajda2\WebsiteChecker\Tests\Unit\Model\Entity\TestCase;
 
 use Ajda2\WebsiteChecker\Model\Entity\TestCase\MetaTitle;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
+use Nette\Http\Url;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 
@@ -12,6 +13,9 @@ class MetaTitleTest extends TestCase {
 	/** @var MetaTitle */
 	private $item;
 
+	/** @var Url */
+	private $url;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -19,6 +23,7 @@ class MetaTitleTest extends TestCase {
 		$name = 'Name';
 
 		$this->item = new MetaTitle($code, $name);
+		$this->url = new Url('https://www.surface.cz/');
 	}
 
 	public function testConstructor(): void {
@@ -48,7 +53,7 @@ class MetaTitleTest extends TestCase {
 			$document = new \DOMDocument();
 			$document->loadHTML($source);
 
-			$result = $this->item->run($document);
+			$result = $this->item->run($this->url, $document);
 
 			$this->assertInstanceOf(TestResultInterface::class, $result);
 			$this->assertSame(Strings::trim($content), $result->getValue());
@@ -73,7 +78,7 @@ class MetaTitleTest extends TestCase {
 			$document = new \DOMDocument();
 			$document->loadHTML($source);
 
-			$result = $this->item->run($document);
+			$result = $this->item->run($this->url, $document);
 
 			$this->assertInstanceOf(TestResultInterface::class, $result);
 			$this->assertSame(Strings::trim($content), $result->getValue());
@@ -82,12 +87,15 @@ class MetaTitleTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function testRunNoTag(): void {
 		$source = '<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"></head><body></body></html>';
 		$document = new \DOMDocument();
 		$document->loadHTML($source);
 
-		$result = $this->item->run($document);
+		$result = $this->item->run($this->url, $document);
 
 		$this->assertInstanceOf(TestResultInterface::class, $result);
 		$this->assertNull($result->getValue());

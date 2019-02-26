@@ -4,12 +4,16 @@ namespace Ajda2\WebsiteChecker\Tests\Unit\Model\Entity\TestCase;
 
 use Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsEnable;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
+use Nette\Http\Url;
 use PHPUnit\Framework\TestCase;
 
 class RobotsEnableTest extends TestCase {
 
 	/** @var RobotsEnable */
 	private $item;
+
+	/** @var Url */
+	private $url;
 
 	public function setUp() {
 		parent::setUp();
@@ -18,6 +22,7 @@ class RobotsEnableTest extends TestCase {
 		$name = 'Name';
 
 		$this->item = new RobotsEnable($code, $name);
+		$this->url = new Url('https://www.surface.cz/');
 	}
 
 	public function testConstructor(): void {
@@ -31,6 +36,9 @@ class RobotsEnableTest extends TestCase {
 		$this->assertSame($name, $this->item->getName());
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function testRunSuccess(): void {
 		$contents = [
 			'all',
@@ -47,7 +55,7 @@ class RobotsEnableTest extends TestCase {
 			$document = new \DOMDocument();
 			$document->loadHTML($source);
 
-			$result = $this->item->run($document);
+			$result = $this->item->run($this->url, $document);
 
 			$this->assertInstanceOf(TestResultInterface::class, $result);
 			$this->assertSame(\str_replace(" ", "", $content), $result->getValue());
@@ -56,6 +64,9 @@ class RobotsEnableTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function testRunFail(): void {
 		$contents = [
 			'noindex',
@@ -71,7 +82,7 @@ class RobotsEnableTest extends TestCase {
 			$document = new \DOMDocument();
 			$document->loadHTML($source);
 
-			$result = $this->item->run($document);
+			$result = $this->item->run($this->url, $document);
 
 			$this->assertInstanceOf(TestResultInterface::class, $result);
 			$this->assertSame(\str_replace(" ", "", $content), $result->getValue());
@@ -80,12 +91,15 @@ class RobotsEnableTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function testRunNoTag(): void {
 		$source = '<!DOCTYPE html><html lang="cs"><head></head><body></body></html>';
 		$document = new \DOMDocument();
 		$document->loadHTML($source);
 
-		$result = $this->item->run($document);
+		$result = $this->item->run($this->url, $document);
 
 		$this->assertInstanceOf(TestResultInterface::class, $result);
 		$this->assertNull($result->getValue());
@@ -93,12 +107,15 @@ class RobotsEnableTest extends TestCase {
 		$this->assertFalse($result->isFail());
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function testRunNoContentAttr(): void {
 		$source = '<!DOCTYPE html><html lang="cs"><head><meta name="robots"></head><body></body></html>';
 		$document = new \DOMDocument();
 		$document->loadHTML($source);
 
-		$result = $this->item->run($document);
+		$result = $this->item->run($this->url, $document);
 
 		$this->assertInstanceOf(TestResultInterface::class, $result);
 		$this->assertNull($result->getValue());
