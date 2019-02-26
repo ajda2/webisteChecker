@@ -43,6 +43,7 @@ class WebsiteFacade {
 			"1 AS metaTitleDescription",
 			"1 AS metaDescription",
 			"1 AS h1",
+			"1 AS sitemap",
 		];
 
 		return $this->database->table($tableName)

@@ -5,7 +5,6 @@ namespace Ajda2\WebsiteChecker\Tests\Unit\Model\Entity\TestCase;
 use Ajda2\WebsiteChecker\Model\Entity\TestCase\Sitemap;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Nette\Http\Url;
-use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 
 class SitemapTest extends TestCase {

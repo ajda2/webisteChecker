@@ -12,7 +12,6 @@ use SimpleXMLElement;
 
 class Sitemap extends AbstractTest {
 
-
 	/**
 	 * @param Url          $url
 	 * @param \DOMDocument $document
@@ -28,7 +27,7 @@ class Sitemap extends AbstractTest {
 		$sitemapUrl->setPath('sitemap.xml');
 
 		try {
-			$xml = new SimpleXMLElement((string)$sitemapUrl, 0, TRUE);
+			$xml = @new SimpleXMLElement((string)$sitemapUrl, 0, TRUE);
 			$nodeCount = $xml->count();
 
 			if ($nodeCount > 0) {
