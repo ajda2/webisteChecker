@@ -9,6 +9,7 @@ use Ajda2\WebsiteChecker\Model\WebsiteRepository;
 use Ajda2\WebsiteChecker\Tests\Integration\Bootstrap;
 use Ajda2\WebsiteChecker\Tests\Integration\DbTestCase;
 use Nette\Http\Url;
+use Nette\InvalidStateException;
 use Nette\Utils\DateTime;
 use PHPUnit\DbUnit\DataSet\IDataSet;
 
@@ -76,6 +77,19 @@ class WebsiteRepositoryTest extends DbTestCase {
 		$this->assertSame($responseCode, $result->getResponseCode());
 		$this->assertSame($lastCheckAt->getTimestamp(), $result->getLastCheckAt()->getTimestamp());
 		$this->assertSame((string)$url, (string)$result->getUrl());
+	}
+
+	public function testDelete(): void {
+		$id = 1;
+
+		$result = $this->websiteRepository->delete($id);
+
+		$this->assertTrue($result);
+		try {
+			$this->websiteRepository->getById($id);
+			$this->fail("Website with ID: {$id} was not deleted");
+		} catch (InvalidStateException $e) {
+		}
 	}
 
 	/**

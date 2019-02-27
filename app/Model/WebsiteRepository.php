@@ -107,6 +107,18 @@ class WebsiteRepository {
 		return $website;
 	}
 
+	public function delete(int $websiteId): bool {
+		try {
+			$this->database->table(self::TABLE_WEBSITE)->where([self::COLUMN_WEBSITE_ID => $websiteId])->delete();
+
+			return TRUE;
+		} catch (DriverException $e) {
+			$this->logger->log($e, $this->logger::ERROR);
+
+			return FALSE;
+		}
+	}
+
 	private function fromRowFactory(ActiveRow $row): WebsiteIdentifyInterface {
 		$url = new Url($row->offsetGet(self::COLUMN_WEBSITE_URL));
 
