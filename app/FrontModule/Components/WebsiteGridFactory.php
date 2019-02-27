@@ -9,6 +9,7 @@ use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 
 class WebsiteGridFactory {
@@ -65,6 +66,17 @@ class WebsiteGridFactory {
 		$grid->setDataSource($dataSource);
 
 		$grid->addColumnText('url', 'Web')
+			->setRenderer(
+				function (ActiveRow $row): Html {
+					$url = $row->offsetGet('url');
+					$linkElem = Html::el('a')
+						->setText($url)
+						->href($url)
+						->setAttribute('target', '_blank');
+
+					return $linkElem;
+				}
+			)
 			->setSortable()
 			->setFilterText();
 
