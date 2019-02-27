@@ -89,7 +89,15 @@ class WebsiteRepository {
 		];
 
 		try {
-			$this->database->table(self::TABLE_WEBSITE)->where([self::COLUMN_WEBSITE_ID => $website->getId()])->update($data);
+			if ($website->getId() === 0) {
+				$row = $this->database->table(self::TABLE_WEBSITE)->insert($data);
+
+				if ($row instanceof ActiveRow) {
+					$website = $this->fromRowFactory($row);
+				}
+			} else {
+				$this->database->table(self::TABLE_WEBSITE)->where([self::COLUMN_WEBSITE_ID => $website->getId()])->update($data);
+			}
 		} catch (DriverException $e) {
 			$this->logger->log($e, $this->logger::ERROR);
 

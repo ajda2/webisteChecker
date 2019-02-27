@@ -57,6 +57,28 @@ class WebsiteRepositoryTest extends DbTestCase {
 	}
 
 	/**
+	 * @throws \Ajda2\WebsiteChecker\Model\PersistException
+	 */
+	public function testSaveInsert(): void {
+		$nextId = 3;
+		$responseTime = 54.45;
+		$responseCode = 85;
+		$lastCheckAt = new DateTime();
+		$url = new Url('https://www.tichy-vyvojar.cz/');
+
+		$website = new WebsiteIdentify(0, $url, $lastCheckAt, $responseCode, $responseTime);
+
+		$result = $this->websiteRepository->save($website);
+
+		$this->assertInstanceOf(WebsiteIdentifyInterface::class, $result);
+		$this->assertSame($nextId, $result->getId());
+		$this->assertSame($responseTime, $result->getResponseTime());
+		$this->assertSame($responseCode, $result->getResponseCode());
+		$this->assertSame($lastCheckAt->getTimestamp(), $result->getLastCheckAt()->getTimestamp());
+		$this->assertSame((string)$url, (string)$result->getUrl());
+	}
+
+	/**
 	 * Returns the test dataset.
 	 *
 	 * @return IDataSet
