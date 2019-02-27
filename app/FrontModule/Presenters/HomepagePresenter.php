@@ -64,6 +64,14 @@ class HomepagePresenter extends Presenter {
 		];
 	}
 
+	public function handleDelete(int $id): void {
+		$this->websiteRepository->delete($id);
+
+		if ($this->isAjax()) {
+			$this->getComponent('grid')->redrawControl();
+		}
+	}
+
 	public function handleRunTest(): void {
 		$website = $this->websiteRepository->getWebsiteForTest();
 

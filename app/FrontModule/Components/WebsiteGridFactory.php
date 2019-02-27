@@ -144,12 +144,19 @@ class WebsiteGridFactory {
 			}
 		);
 
+		$grid->addAction('delete', 'Smazat', 'delete!')
+			->setIcon('trash')
+			->setTitle('Smazat')
+			->setClass('btn btn-danger ajax')
+			->setConfirm('Opravdu smazat URL %s?', 'url'); // Second parameter is optional
+
 		$grid->addAction('test', "Zkontrolovat", "testWeb!")
 			->setClass('btn btn-primary ajax');
 
 
 		/** @var InlineEdit $inlineEdit */
 		$inlineEdit = $grid->addInlineEdit();
+		$inlineEdit->setText('Editovat')->setClass('btn btn-secondary ajax');
 		$inlineEdit->onControlAdd[] = function ($container): void {
 			$container->addText('url', '');
 		};
