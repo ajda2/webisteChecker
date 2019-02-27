@@ -7,10 +7,12 @@ use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\WebsiteFacade;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Database\Table\ActiveRow;
+use Nette\Http\Url;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\InlineEdit\InlineEdit;
 
 class WebsiteGridFactory {
 
@@ -144,6 +146,30 @@ class WebsiteGridFactory {
 
 		$grid->addAction('test', "Zkontrolovat", "testWeb!")
 			->setClass('btn btn-primary ajax');
+
+
+		/** @var InlineEdit $inlineEdit */
+		$inlineEdit = $grid->addInlineEdit();
+		$inlineEdit->onControlAdd[] = function ($container): void {
+			$container->addText('url', '');
+		};
+
+		$inlineEdit->onSetDefaults[] = function ($container, ActiveRow $item): void {
+			$container->setDefaults(
+				[
+					'url' => $item->offsetGet('url'),
+				]
+			);
+		};
+
+		$inlineEdit->onSubmit[] = function (int $id, ArrayHash $values): void {
+			$website = $this->websiteFacade->get($id);
+			$website->resetState();
+			$website->setUrl(new Url($values->offsetGet('url')));
+
+			$this->websiteFacade->persistWebsite($website);
+			$this->testResultRepository->removeWebsiteResults($website->getId());
+		};
 
 		return $grid;
 	}

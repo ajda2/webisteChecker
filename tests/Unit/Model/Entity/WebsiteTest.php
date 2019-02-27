@@ -51,14 +51,17 @@ class WebsiteTest extends TestCase {
 		$lastCheckAt = new DateTime("2018-05-01 18:16:54");
 		$responseCode = 404;
 		$responseTime = 10.0;
+		$url = new Url("https://changed.com");
 
 		$this->item->setLastCheckAt($lastCheckAt);
 		$this->item->setResponseCode($responseCode);
 		$this->item->setResponseTime($responseTime);
+		$this->item->setUrl($url);
 
 		$this->assertSame($lastCheckAt->getTimestamp(), $this->item->getLastCheckAt()->getTimestamp());
 		$this->assertSame($responseCode, $this->item->getResponseCode());
 		$this->assertSame($responseTime, $this->item->getResponseTime());
+		$this->assertSame((string)$url, (string)$this->item->getUrl());
 	}
 
 	public function testClearTestResults(): void {

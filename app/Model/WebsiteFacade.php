@@ -3,8 +3,10 @@
 namespace Ajda2\WebsiteChecker\Model;
 
 
+use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
+use Nette\InvalidStateException;
 use Nette\SmartObject;
 
 class WebsiteFacade {
@@ -49,5 +51,23 @@ class WebsiteFacade {
 
 		return $this->database->table($tableName)
 			->select(\implode(", ", $columns));
+	}
+
+	/**
+	 * @param int $id
+	 * @return WebsiteIdentifyInterface
+	 * @throws InvalidStateException
+	 */
+	public function get(int $id): WebsiteIdentifyInterface {
+		return $this->websiteRepository->getById($id);
+	}
+
+	/**
+	 * @param WebsiteIdentifyInterface $website
+	 * @return WebsiteIdentifyInterface
+	 * @throws PersistException
+	 */
+	public function persistWebsite(WebsiteIdentifyInterface $website): WebsiteIdentifyInterface {
+		return $this->websiteRepository->save($website);
 	}
 }

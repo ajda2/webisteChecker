@@ -10,6 +10,8 @@ interface WebsiteInterface {
 
 	public function getUrl(): Url;
 
+	public function setUrl(Url $url): WebsiteInterface;
+
 	public function getLastCheckAt(): ?DateTime;
 
 	public function setLastCheckAt(DateTime $lastCheckAt): WebsiteInterface;

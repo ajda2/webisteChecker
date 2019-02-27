@@ -53,6 +53,12 @@ class Website implements WebsiteInterface {
 		return $this->url;
 	}
 
+	public function setUrl(Url $url): WebsiteInterface {
+		$this->url = $url;
+
+		return $this;
+	}
+
 	public function getLastCheckAt(): ?DateTime {
 		if ($this->lastCheckAt !== NULL) {
 			return clone $this->lastCheckAt;
