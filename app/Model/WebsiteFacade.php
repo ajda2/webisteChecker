@@ -44,6 +44,7 @@ class WebsiteFacade {
 			"1 AS metaDescription",
 			"1 AS h1",
 			"1 AS sitemap",
+			"1 AS robotsFile",
 		];
 
 		return $this->database->table($tableName)

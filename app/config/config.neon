@@ -36,3 +36,4 @@ services:
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\H1(h1, H1) )
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\MetaDescription(metaDescription, Description) )
 			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\Sitemap(sitemap, Sitemap.xml) )
+			- addTest(\Ajda2\WebsiteChecker\Model\Entity\TestCase\RobotsFile(robotsFile, Robots.txt) )
