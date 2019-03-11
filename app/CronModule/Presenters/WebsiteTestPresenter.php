@@ -71,19 +71,18 @@ class WebsiteTestPresenter extends Presenter {
 	/**
 	 * @throws PersistException
 	 */
-	public function actionAll(): void {
+	public function actionRun(): void {
 		$website = $this->websiteRepository->getWebsiteForTest();
 
 		if ($website === NULL) {
 			return;
 		}
 
-		$website->resetState();
-		$this->websiteTestRepository->removeWebsiteResults($website->getId());
+		$this->runTests($website);
 
-		$this->tester->runTests($website, $this->requestTimeout);
-
-		$this->websiteRepository->save($website);
+		if($website->hasFailingTest()){
+			// TODO: Send e-mail
+		}
 	}
 
 	/**
@@ -98,6 +97,7 @@ class WebsiteTestPresenter extends Presenter {
 		if ($website instanceof WebsiteIdentifyInterface) {
 			try {
 				$this->websiteRepository->save($website);
+				// TODO: Send e-mail
 			} catch (PersistException $e) {
 			}
 		}
@@ -141,5 +141,21 @@ class WebsiteTestPresenter extends Presenter {
 				$this->logger->log($e, $this->logger::ERROR);
 			}
 		}
+	}
+
+	private function runTests(WebsiteIdentifyInterface $website): bool {
+		try {
+			$website->resetState();
+			$this->websiteRepository->save($website);
+			$this->websiteTestRepository->removeWebsiteResults($website->getId());
+
+			$this->tester->runTests($website, $this->requestTimeout);
+
+			$this->websiteRepository->save($website);
+		} catch (PersistException $e) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 }

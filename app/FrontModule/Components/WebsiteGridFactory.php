@@ -4,13 +4,17 @@ namespace Ajda2\WebsiteChecker\FrontModule\Components;
 
 
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
+use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentify;
 use Ajda2\WebsiteChecker\Model\WebsiteFacade;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Container;
+use Nette\Forms\Form;
 use Nette\Http\Url;
 use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
+use Nette\Utils\Validators;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\InlineEdit\InlineEdit;
 
@@ -137,7 +141,7 @@ class WebsiteGridFactory {
 
 
 		$grid->setRowCallback(
-			function (ActiveRow $item, $tr): void {
+			function (ActiveRow $item, Html $tr): void {
 				if ((bool)$item->offsetGet('has_failing_test')) {
 					$tr->addClass('error');
 				}
@@ -157,11 +161,11 @@ class WebsiteGridFactory {
 		/** @var InlineEdit $inlineEdit */
 		$inlineEdit = $grid->addInlineEdit();
 		$inlineEdit->setText('Editovat')->setClass('btn btn-secondary ajax');
-		$inlineEdit->onControlAdd[] = function ($container): void {
+		$inlineEdit->onControlAdd[] = function (Container $container): void {
 			$container->addText('url', '');
 		};
 
-		$inlineEdit->onSetDefaults[] = function ($container, ActiveRow $item): void {
+		$inlineEdit->onSetDefaults[] = function (Container $container, ActiveRow $item): void {
 			$container->setDefaults(
 				[
 					'url' => $item->offsetGet('url'),
@@ -176,6 +180,31 @@ class WebsiteGridFactory {
 
 			$this->websiteFacade->persistWebsite($website);
 			$this->testResultRepository->removeWebsiteResults($website->getId());
+		};
+
+
+		$inlineAdd = $grid->addInlineAdd()->setPositionTop();
+		$inlineAdd->onControlAdd[] = function (Container $container): void {
+			$container->addText('url', '')
+				->addRule(Form::URL, 'Vyplňte prosím platnou URL')
+				->setRequired('Vyplňte prosím platnou URL');
+		};
+
+		$inlineAdd->onSubmit[] = function (ArrayHash $values) use ($grid): void {
+			$url = $values->offsetGet('url');
+
+			if (!Validators::isUrl($url)) {
+				return;
+			}
+
+			$websiteUrl = new Url($url);
+
+			$website = new WebsiteIdentify(0, $websiteUrl);
+			$this->websiteFacade->persistWebsite($website);
+			$grid->redrawControl();
+
+			//			$this->flashMessage("Record with values [$v] was added! (not really)", 'success');
+			//			$this->redrawControl('flashes');
 		};
 
 		return $grid;

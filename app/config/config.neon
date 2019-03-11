@@ -9,6 +9,8 @@ application:
 session:
 	expiration: 14 days
 	debugger: true
+	autoStart: true
+	savePath: "%tempDir%/sessions"
 
 tracy:
 	email: michal@tichy-vyvojar.cz
