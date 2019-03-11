@@ -68,9 +68,6 @@ class WebsiteTestPresenter extends Presenter {
 		$this->terminate();
 	}
 
-	/**
-	 * @throws PersistException
-	 */
 	public function actionRun(): void {
 		$website = $this->websiteRepository->getWebsiteForTest();
 
