@@ -1,0 +1,15 @@
+{layout './@mailLayout.latte'}
+
+{block #content}
+<p>
+	Web <a href="{$website->getUrl()}">{$website->getUrl()}</a> obsahuje chyby.<br>
+	Detail na <a n:href="Front:Homepage:default">{link 'Front:Homepage:default'}</a>
+</p>
+
+<ul>
+	<li n:foreach="$website->getTestResults() as $result" n:if="$result->isFail()">
+		<strong n:if="$tests->offsetExists($result->getTestCode())">{$tests->offsetGet($result->getTestCode())->getName()}</strong><br>
+		<p n:if="$result->getValue()">{$result->getValue()}</p>
+		<p n:if="$result->getDescription()">{$result->getDescription()}</p>
+	</li>
+</ul>

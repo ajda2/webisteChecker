@@ -9,6 +9,7 @@ use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Nette\Http\Url;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
+use Nette\Utils\Validators;
 
 class RobotsFile extends AbstractTest {
 
@@ -33,12 +34,12 @@ class RobotsFile extends AbstractTest {
 				return new TestResult($this->getCode(), new DateTime(), FALSE, NULL, "Cannot read file");
 			}
 
-			if (Strings::contains(
-				"User-agent: *
+			if (!Validators::isNone($fileContent) && Strings::contains(
+					"User-agent: *
 Disallow: /
 ",
-				$fileContent
-			)) {
+					$fileContent
+				)) {
 				return new TestResult($this->getCode(), new DateTime(), FALSE, $fileContent, "All user agents are disabled");
 			}
 

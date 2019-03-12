@@ -3,6 +3,7 @@
 namespace Ajda2\WebsiteChecker\CronModule\Presenters;
 
 
+use Ajda2\WebsiteChecker\Mail\FailingTests;
 use Ajda2\WebsiteChecker\Mail\NoResponse;
 use Ajda2\WebsiteChecker\Model\Entity\TestInterface;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
@@ -83,7 +84,16 @@ class WebsiteTestPresenter extends Presenter {
 		$this->runTests($website);
 
 		if ($website->hasFailingTest()) {
-			// TODO: Send e-mail
+			try {
+				$params = [
+					'website' => $website,
+					'tests'   => $this->tester->getTests()
+				];
+				$mail = $this->mailFactory->createByType(FailingTests::class, $params);
+				$mail->send();
+			} catch (\Throwable $e) {
+				$this->logger->log($e, $this->logger::ERROR);
+			}
 		}
 	}
 

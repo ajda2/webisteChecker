@@ -4,6 +4,7 @@ namespace Ajda2\WebsiteChecker\FrontModule\Presenters;
 
 
 use Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory;
+use Ajda2\WebsiteChecker\Mail\FailingTests;
 use Ajda2\WebsiteChecker\Mail\NoResponse;
 use Ajda2\WebsiteChecker\Model\Entity\TestInterface;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
@@ -85,6 +86,19 @@ class HomepagePresenter extends Presenter {
 		}
 
 		$this->runTests($website);
+
+		if ($website->hasFailingTest()) {
+			try {
+				$params = [
+					'website' => $website,
+					'tests'   => $this->tester->getTests()
+				];
+				$mail = $this->mailFactory->createByType(FailingTests::class, $params);
+				$mail->send();
+			} catch (\Throwable $e) {
+				$this->logger->log($e, $this->logger::ERROR);
+			}
+		}
 
 		if ($this->isAjax()) {
 			$this->redrawControl();
