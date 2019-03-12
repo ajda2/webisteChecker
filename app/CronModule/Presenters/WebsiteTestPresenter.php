@@ -3,6 +3,7 @@
 namespace Ajda2\WebsiteChecker\CronModule\Presenters;
 
 
+use Ajda2\WebsiteChecker\Mail\NoResponse;
 use Ajda2\WebsiteChecker\Model\Entity\TestInterface;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
@@ -16,6 +17,7 @@ use Nette\Application\UI\Presenter;
 use Nette\Utils\DateTime;
 use Psr\Http\Message\ResponseInterface;
 use Tracy\ILogger;
+use Ublaboo\Mailing\MailFactory;
 
 class WebsiteTestPresenter extends Presenter {
 
@@ -30,6 +32,9 @@ class WebsiteTestPresenter extends Presenter {
 
 	/** @var ILogger @inject */
 	public $logger;
+
+	/** @var MailFactory @inject */
+	public $mailFactory;
 
 	/** @var float */
 	private $requestTimeout = 4.0;
@@ -77,7 +82,7 @@ class WebsiteTestPresenter extends Presenter {
 
 		$this->runTests($website);
 
-		if($website->hasFailingTest()){
+		if ($website->hasFailingTest()) {
 			// TODO: Send e-mail
 		}
 	}
@@ -94,9 +99,18 @@ class WebsiteTestPresenter extends Presenter {
 		if ($website instanceof WebsiteIdentifyInterface) {
 			try {
 				$this->websiteRepository->save($website);
-				// TODO: Send e-mail
 			} catch (PersistException $e) {
 			}
+		}
+
+		try {
+			$params = [
+				'website' => $website
+			];
+			$mail = $this->mailFactory->createByType(NoResponse::class, $params);
+			$mail->send();
+		} catch (\Throwable $e) {
+			$this->logger->log($e, $this->logger::ERROR);
 		}
 	}
 
