@@ -4,6 +4,7 @@ namespace Ajda2\WebsiteChecker\FrontModule\Presenters;
 
 
 use Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory;
+use Ajda2\WebsiteChecker\Mail\NoResponse;
 use Ajda2\WebsiteChecker\Model\Entity\TestInterface;
 use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
@@ -18,6 +19,7 @@ use Nette\Utils\DateTime;
 use Psr\Http\Message\ResponseInterface;
 use Tracy\ILogger;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\Mailing\MailFactory;
 
 class HomepagePresenter extends Presenter {
 
@@ -35,6 +37,9 @@ class HomepagePresenter extends Presenter {
 
 	/** @var ILogger @inject */
 	public $logger;
+
+	/** @var MailFactory @inject */
+	public $mailFactory;
 
 	/** @var float */
 	private $requestTimeout = 4.0;
@@ -110,6 +115,16 @@ class HomepagePresenter extends Presenter {
 				$this->websiteRepository->save($website);
 			} catch (PersistException $e) {
 			}
+		}
+
+		try {
+			$params = [
+				'website' => $website
+			];
+			$mail = $this->mailFactory->createByType(NoResponse::class, $params);
+			$mail->send();
+		} catch (\Throwable $e) {
+			$this->logger->log($e, $this->logger::ERROR);
 		}
 	}
 

@@ -1,6 +1,9 @@
 
 parameters:
 
+extensions:
+	mailing: Ublaboo\Mailing\DI\MailingExtension
+
 application:
 	errorPresenter: Front:Error
 	mapping:
@@ -22,6 +25,13 @@ database:
 		user: %database.user%
 		password: %database.password%
 
+mailing:
+	do: both # log|send|both
+	log_directory: '%appDir%/../log/mails' # this is default option
+	mail_images_base_path: %wwwDir% # this is default option
+	mails:
+		default_sender: no-reply@mysurface.cz
+
 services:
 	router: Nette\Application\Routers\SimpleRouter('Front:Homepage:default')
 
@@ -29,6 +39,7 @@ services:
 	- Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository
 	- Ajda2\WebsiteChecker\Model\WebsiteFacade
 	- Ajda2\WebsiteChecker\FrontModule\Components\WebsiteGridFactory
+
 
 	tester:
 		class: Ajda2\WebsiteChecker\Model\Tester
