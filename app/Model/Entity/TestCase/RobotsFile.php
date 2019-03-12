@@ -35,7 +35,8 @@ class RobotsFile extends AbstractTest {
 
 			if (Strings::contains(
 				"User-agent: *
-Disallow: /",
+Disallow: /
+",
 				$fileContent
 			)) {
 				return new TestResult($this->getCode(), new DateTime(), FALSE, $fileContent, "All user agents are disabled");

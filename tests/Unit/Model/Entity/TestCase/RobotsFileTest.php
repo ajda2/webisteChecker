@@ -41,8 +41,9 @@ class RobotsFileTest extends TestCase {
 	 */
 	public function testRunSuccess(): void {
 		$document = new \DOMDocument();
+		$url = new Url('https://www.numismatika-zlin.cz/');
 
-		$result = $this->item->run($this->url, $document);
+		$result = $this->item->run($url, $document);
 
 		$this->assertInstanceOf(TestResultInterface::class, $result);
 		$this->assertTrue($result->isSuccess());
