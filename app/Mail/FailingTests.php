@@ -16,7 +16,7 @@ class FailingTests extends Mail implements IComposableMail {
 	public function compose(Message $message, $params = NULL): void {
 		$this->setTemplateFile(__DIR__ . '/templates/failingTests.latte');
 
-		$message->setFrom('Website Tester <no-reply@surface.cz>');
+		$message->setFrom('Website Tester <no-reply@mysurface.cz>');
 		$message->addTo('michal.tichy@surface.cz');
 
 		$message->setSubject("Web '{$params['website']->getUrl()}' obsahuje chyby");
