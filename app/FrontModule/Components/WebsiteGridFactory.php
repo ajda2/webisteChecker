@@ -147,12 +147,16 @@ class WebsiteGridFactory {
 				}
 			}
 		);
+		//$grid->setItemsDetail(function() { return 'Lorem Ipsum'; });
+		$grid->setItemsDetail(__DIR__ . '/../templates/Homepage/detail.latte');
 
 		$grid->addAction('delete', 'Smazat', 'delete!')
 			->setIcon('trash')
 			->setTitle('Smazat')
 			->setClass('btn btn-danger ajax')
 			->setConfirm('Opravdu smazat URL %s?', 'url'); // Second parameter is optional
+
+
 
 		$grid->addAction('test', "Zkontrolovat", "testWeb!")
 			->setClass('btn btn-primary ajax');

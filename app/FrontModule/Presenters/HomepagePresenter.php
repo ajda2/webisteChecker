@@ -110,11 +110,10 @@ class HomepagePresenter extends Presenter {
 
 		$this->runTests($website);
 
-		// TODO: huhuhuggug
-//		if ($this->isAjax()) {
-//			$this->redrawControl();
-//		}
-//	}
+		if ($this->isAjax()) {
+			$this->redrawControl();
+		}
+	}
 
 	/**
 	 * @param Tester           $tester

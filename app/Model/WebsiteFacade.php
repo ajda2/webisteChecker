@@ -3,11 +3,13 @@
 namespace Ajda2\WebsiteChecker\Model;
 
 
+use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
 use Nette\InvalidStateException;
 use Nette\SmartObject;
+use Nette\Utils\ArrayList;
 
 class WebsiteFacade {
 
@@ -20,14 +22,32 @@ class WebsiteFacade {
 	private $websiteRepository;
 
 	/**
-	 * WebsiteFacade constructor.
-	 * @param WebsiteRepository $websiteRepository
-	 * @param Context           $database
+	 * @var WebsiteTestResultRepository
 	 */
-	public function __construct(WebsiteRepository $websiteRepository, Context $database) {
+	private $websiteTestResultRepository;
+
+	/**
+	 * WebsiteFacade constructor.
+	 * @param WebsiteRepository           $websiteRepository
+	 * @param Context                     $database
+	 * @param WebsiteTestResultRepository $websiteTestResultRepository
+	 */
+	public function __construct(WebsiteRepository $websiteRepository, Context $database, WebsiteTestResultRepository $websiteTestResultRepository) {
 		$this->database = $database;
 		$this->websiteRepository = $websiteRepository;
+		$this->websiteTestResultRepository = $websiteTestResultRepository;
 	}
+
+	/**
+	 * @param int $websiteId
+	 * @return ArrayList|TestResultInterface[]
+	 */
+	//TODO
+	public function getTestResults(int $websiteId): ArrayList{
+		//$this->websiteId = $websiteId;
+		return $this->websiteTestResultRepository->table($websiteId);
+	}
+
 
 	public function gridData(): Selection {
 		$tableName = $this->websiteRepository::TABLE_WEBSITE;
