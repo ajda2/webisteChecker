@@ -1,5 +1,12 @@
-{block detail}test details
-<h2>{dump $this}</h2>
+{block detail}
+	{dump $this}
+	{foreach $websiteTestResults as $TestResults}
+		{if $TestResults->isFail()}
 
+			<h2>{$TestResults->getTestCode()}</h2>
+			Popis chyby<div class="alert alert-danger" role="alert">{$TestResults->getDescription()}</br></div>
+			Aktuální hodnota<div class="alert alert-danger" role="alert">{$TestResults->getValue()}</div>
+		{/if}
+	{/foreach}
 
 {/block}

@@ -9,7 +9,7 @@ use Nette\Database\Context;
 use Nette\Database\Table\Selection;
 use Nette\InvalidStateException;
 use Nette\SmartObject;
-use Nette\Utils\ArrayList;
+use Nette\Utils\ArrayHash;
 
 class WebsiteFacade {
 
@@ -40,12 +40,16 @@ class WebsiteFacade {
 
 	/**
 	 * @param int $websiteId
-	 * @return ArrayList|TestResultInterface[]
+	 * @return ArrayHash|TestResultInterface[]
 	 */
-	//TODO
-	public function getTestResults(int $websiteId): ArrayList{
-		//$this->websiteId = $websiteId;
-		return $this->websiteTestResultRepository->table($websiteId);
+	public function getTestResults(int $websiteId): ArrayHash{
+		$results = $this->websiteTestResultRepository->getResults([$websiteId]);
+
+		if(!$results->offsetExists($websiteId)){
+			throw new InvalidStateException();
+		}
+
+		return $results->offsetGet($websiteId);
 	}
 
 
