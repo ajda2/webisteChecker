@@ -2,10 +2,13 @@
 
 	{foreach $websiteTestResults as $TestResults}
 		{if $TestResults->isFail()}
-
 			<h2>{$TestResults->getTestCode()}</h2>
-			Popis chyby<div class="alert alert-danger" role="alert">{$TestResults->getDescription()}</br></div>
-			Aktuální hodnota<div class="alert alert-danger" role="alert">{$TestResults->getValue()}</div>
+			{if $TestResults->getDescription() != NULL}
+				Popis chyby<div class="alert alert-danger" role="alert">{$TestResults->getDescription()}</div>
+			{/if}
+			{if $TestResults->getValue() != NULL}
+				Aktuální hodnota<div class="alert alert-danger" role="alert">{$TestResults->getValue()}</div>
+			{/if}
 		{/if}
 	{/foreach}
 
