@@ -7,6 +7,8 @@ use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentify;
 use Ajda2\WebsiteChecker\Model\WebsiteFacade;
 use Ajda2\WebsiteChecker\Model\WebsiteTestResultRepository;
+use Nette\Application\UI\ITemplateFactory;
+use Nette\Bridges\ApplicationLatte\Template;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Container;
 use Nette\Forms\Form;
@@ -28,14 +30,23 @@ class WebsiteGridFactory {
 	/** @var WebsiteTestResultRepository */
 	private $testResultRepository;
 
+	/** @var ITemplateFactory */
+	private $templateFactory;
+
 	/**
 	 * WebsiteGridFactory constructor.
 	 * @param WebsiteFacade               $websiteFacade
 	 * @param WebsiteTestResultRepository $testResultRepository
+	 * @param ITemplateFactory            $templateFactory
 	 */
-	public function __construct(WebsiteFacade $websiteFacade, WebsiteTestResultRepository $testResultRepository) {
+	public function __construct(
+		WebsiteFacade $websiteFacade,
+		WebsiteTestResultRepository $testResultRepository,
+		ITemplateFactory $templateFactory
+	) {
 		$this->websiteFacade = $websiteFacade;
 		$this->testResultRepository = $testResultRepository;
+		$this->templateFactory = $templateFactory;
 	}
 
 	/**
@@ -147,12 +158,28 @@ class WebsiteGridFactory {
 				}
 			}
 		);
+		//$grid->setItemsDetail(function() { return 'Lorem Ipsum'; });
+		//$grid->setItemsDetail(__DIR__ . '/../templates/Homepage/detail.latte');
+		$grid->setItemsDetail(
+			function (ActiveRow $row) {
+				return $this->renderItemDetail($row);
+			}
+		)
+			->setText('Detail');
+
+
+		/**
+		 * @param array $row
+		 * @return string
+		 */
+
 
 		$grid->addAction('delete', 'Smazat', 'delete!')
 			->setIcon('trash')
 			->setTitle('Smazat')
 			->setClass('btn btn-danger ajax')
 			->setConfirm('Opravdu smazat URL %s?', 'url'); // Second parameter is optional
+
 
 		$grid->addAction('test', "Zkontrolovat", "testWeb!")
 			->setClass('btn btn-primary ajax');
@@ -208,5 +235,20 @@ class WebsiteGridFactory {
 		};
 
 		return $grid;
+	}
+
+	/**
+	 * @param ActiveRow $row
+	 * @return string
+	 */
+	public function renderItemDetail(ActiveRow $row): string {
+		$websiteId = $row->offsetGet('id');
+		$websiteTestResults = $this->websiteFacade->getTestResults($websiteId);
+		/** @var Template $template */
+		$template = $this->templateFactory->createTemplate();
+		$template->setFile(__DIR__ . '/../templates/Homepage/detail.latte');
+		$template->websiteTestResults = $websiteTestResults;
+
+		return (string)$template;
 	}
 }
