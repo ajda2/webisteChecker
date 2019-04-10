@@ -3,11 +3,13 @@
 namespace Ajda2\WebsiteChecker\Model;
 
 
+use Ajda2\WebsiteChecker\Model\Entity\TestResultInterface;
 use Ajda2\WebsiteChecker\Model\Entity\WebsiteIdentifyInterface;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
 use Nette\InvalidStateException;
 use Nette\SmartObject;
+use Nette\Utils\ArrayHash;
 
 class WebsiteFacade {
 
@@ -20,14 +22,36 @@ class WebsiteFacade {
 	private $websiteRepository;
 
 	/**
-	 * WebsiteFacade constructor.
-	 * @param WebsiteRepository $websiteRepository
-	 * @param Context           $database
+	 * @var WebsiteTestResultRepository
 	 */
-	public function __construct(WebsiteRepository $websiteRepository, Context $database) {
+	private $websiteTestResultRepository;
+
+	/**
+	 * WebsiteFacade constructor.
+	 * @param WebsiteRepository           $websiteRepository
+	 * @param Context                     $database
+	 * @param WebsiteTestResultRepository $websiteTestResultRepository
+	 */
+	public function __construct(WebsiteRepository $websiteRepository, Context $database, WebsiteTestResultRepository $websiteTestResultRepository) {
 		$this->database = $database;
 		$this->websiteRepository = $websiteRepository;
+		$this->websiteTestResultRepository = $websiteTestResultRepository;
 	}
+
+	/**
+	 * @param int $websiteId
+	 * @return ArrayHash|TestResultInterface[]
+	 */
+	public function getTestResults(int $websiteId): ArrayHash{
+		$results = $this->websiteTestResultRepository->getResults([$websiteId]);
+
+		if(!$results->offsetExists($websiteId)){
+			throw new InvalidStateException();
+		}
+
+		return $results->offsetGet($websiteId);
+	}
+
 
 	public function gridData(): Selection {
 		$tableName = $this->websiteRepository::TABLE_WEBSITE;
